@@ -1,20 +1,22 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<div class="test">
 <mat-card class="home">
     <mat-card-header>
-      <mat-card-title>Atlanta Zoo</mat-card-title>
+      <mat-card-title>Atlanta Zoo Admin</mat-card-title>
     </mat-card-header>
-    <div class ="mainCard">
-        <div class="form-group row">
-        <button mat-button>View Visitors</button>
-        <button mat-button>View Staff</button>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group row" *ngFor="let item of titleList">
+              <button mat-button class="button">{{item}}</button>
+          </div>
         </div>
-        <div class="form-group row">
-        <button mat-button>View Shows</button>
-        <button mat-button>View Animals</button>
+        <div class="col-sm">
+          <div class="form-group row" *ngFor="let item2 of titleList2">
+              <button mat-button class="button">{{item2}}</button>
+          </div>
         </div>
-        <div class="form-group row">
-        <button mat-button>Add Show</button>
-        <button mat-button>Log out</button>
-        </div>
-
       </div>
-</mat-card>
+    </div>
+  </mat-card>
+</div>

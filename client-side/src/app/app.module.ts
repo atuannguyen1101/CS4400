@@ -6,12 +6,16 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './footer/footer.component';
 import { AppMaterialModule } from './app-material/app-material.module';
+import { AnimalDetailComponent } from './add-detail/animal-detail/animal-detail.component';
+import { ExibitDetailComponent } from './add-detail/exibit-detail/exibit-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
-    RoutingComponents
+    RoutingComponents,
+    AnimalDetailComponent,
+    ExibitDetailComponent
   ],
   imports: [
     BrowserModule,
