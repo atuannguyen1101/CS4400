@@ -12,6 +12,6 @@ export class AppComponent implements OnInit{
 
   // Life cycle auto redirect page to main index
   ngOnInit() {
-    this.router.navigate([''])
+    // this.router.navigate([''])
   }
 }
