@@ -1,0 +1,16 @@
+.middleDiv {
+    max-width: 45%;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    margin-top: 10%;
+}
+
+.biggerSize {
+    font-size: 20px;
+    margin-top: 2%;
+}
+
+.example-stretched-tabs {
+    max-width: 800px;
+  }
