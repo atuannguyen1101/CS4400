@@ -16,13 +16,18 @@
 
 .col-sm {
   font-size: 15px;
+  margin-bottom: 5px;
+}
 
-}
-.with-margin {
-  margin-bottom: 20px;
-}
 .button {
   align-content: center;
   background-color: #ffffe6;
   width: 100px;
+
+
+}
+.buttonLayout {
+  align-self: center;
+  padding-left: 40%
+
 }

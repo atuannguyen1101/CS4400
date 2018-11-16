@@ -8,6 +8,8 @@ import { FooterComponent } from './footer/footer.component';
 import { AppMaterialModule } from './app-material/app-material.module';
 import { AnimalDetailComponent } from './add-detail/animal-detail/animal-detail.component';
 import { ExibitDetailComponent } from './add-detail/exibit-detail/exibit-detail.component';
+import { AnimalDetailViewComponent } from './detail-view/animal-detail-view/animal-detail-view.component';
+import { ExhibitDetailViewComponent } from './detail-view/exhibit-detail-view/exhibit-detail-view.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { ExibitDetailComponent } from './add-detail/exibit-detail/exibit-detail.
     FooterComponent,
     RoutingComponents,
     AnimalDetailComponent,
-    ExibitDetailComponent
+    ExibitDetailComponent,
+    AnimalDetailViewComponent,
+    ExhibitDetailViewComponent
   ],
   imports: [
     BrowserModule,
