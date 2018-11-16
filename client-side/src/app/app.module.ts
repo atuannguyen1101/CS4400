@@ -7,11 +7,11 @@ import { LoginSignupComponent } from './login-signup/login-signup.component';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { SearchDetailComponent } from './search-detail/search-detail.component';
-import { ExhibitDetailComponent } from './exhibit-detail/exhibit-detail.component';
 import { DetailViewComponent } from './detail-view/detail-view.component';
 import { HistoryViewComponent } from './history-view/history-view.component';
 import { ShowViewComponent } from './show-view/show-view.component';
 import { AddDetailComponent } from './add-detail/add-detail.component';
+import { AppMaterialModule } from './app-material/app-material.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,6 @@ import { AddDetailComponent } from './add-detail/add-detail.component';
     HomeComponent,
     FooterComponent,
     SearchDetailComponent,
-    ExhibitDetailComponent,
     DetailViewComponent,
     HistoryViewComponent,
     ShowViewComponent,
@@ -28,7 +27,8 @@ import { AddDetailComponent } from './add-detail/add-detail.component';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AppMaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
