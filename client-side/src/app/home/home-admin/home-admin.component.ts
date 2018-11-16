@@ -12,4 +12,16 @@ export class HomeAdminComponent implements OnInit {
   ngOnInit() {
   }
 
+  titleList: String[] = [
+    'View Visitors',
+    'View Show',
+    'Add Show'
+  ];
+
+  titleList2: String[] = [
+    'View Staff',
+    'View Animals',
+    'Log out'
+  ];
+
 }
