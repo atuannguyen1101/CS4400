@@ -16,5 +16,8 @@
 
 .col-sm {
   font-size: 15px;
-  margin-bottom: 5px;
+
+}
+.with-margin {
+  margin-bottom: 20px;
 }
