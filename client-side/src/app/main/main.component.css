@@ -11,6 +11,9 @@
     margin-top: 2%;
 }
 
-.example-stretched-tabs {
-    max-width: 800px;
-  }
+.centerlize {
+    justify-content: center;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+}

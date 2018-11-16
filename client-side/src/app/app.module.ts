@@ -11,6 +11,7 @@ import { HistoryViewComponent } from './history-view/history-view.component';
 import { ShowViewComponent } from './show-view/show-view.component';
 import { AddDetailComponent } from './add-detail/add-detail.component';
 import { AppMaterialModule } from './app-material/app-material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,9 @@ import { AppMaterialModule } from './app-material/app-material.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppMaterialModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
