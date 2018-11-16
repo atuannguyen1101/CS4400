@@ -1,9 +1,8 @@
+import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginSignupComponent } from './login-signup/login-signup.component';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { SearchDetailComponent } from './search-detail/search-detail.component';
@@ -16,21 +15,23 @@ import { AppMaterialModule } from './app-material/app-material.module';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginSignupComponent,
     HomeComponent,
     FooterComponent,
     SearchDetailComponent,
     DetailViewComponent,
     HistoryViewComponent,
     ShowViewComponent,
-    AddDetailComponent
+    AddDetailComponent,
+    routingComponents
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AppMaterialModule
+    AppMaterialModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
