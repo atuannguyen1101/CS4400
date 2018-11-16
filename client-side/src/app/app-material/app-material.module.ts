@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
-
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   imports: [
@@ -15,7 +15,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatCardModule,
     MatFormFieldModule,
     MatButtonToggleModule,
-    MatTabsModule
+    MatTabsModule,
+    MatChipsModule
   ],
   exports: [
     MatInputModule,
@@ -23,7 +24,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatCardModule,
     MatFormFieldModule,
     MatButtonToggleModule,
-    MatTabsModule
+    MatTabsModule,
+    MatChipsModule
   ],
   declarations: []
 })

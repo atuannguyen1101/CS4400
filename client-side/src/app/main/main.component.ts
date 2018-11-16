@@ -14,9 +14,6 @@ export class MainComponent implements OnInit {
 
   // Variables declaration
   background = 'primary';
-  routeLinks: any[];
-  activeLinkIndex = -1;
-
   navLinks = [
     { path: 'login', label: 'Login' },
     { path: 'register', label: 'Registration' },
@@ -24,14 +21,4 @@ export class MainComponent implements OnInit {
   ];
 
   ngOnInit(){}
-
-  // getRoutesList() {
-  //   this.route.data
-  //   .map((data) => data[])
-  //   .subscribe(
-  //     (routeLinks) => {
-  //       this.routeLinks = routeLinks;
-  //     }
-  //   );
-  // }
 }
