@@ -13,7 +13,8 @@
 .row {
   padding: 15px;
   margin-top: 20px;
-  margin-left: 20px
+  margin-left: 20px;
+  margin-bottom: 20px
 }
 
 .col-sm {
