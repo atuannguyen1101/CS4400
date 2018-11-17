@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<div class="test">
+<mat-card>
+  <mat-card-header class="header">Add Show</mat-card-header>
+  <div class="container">
+    <div class="row">
+        <div class="col-sm">
+          <div>
+          <form class="example-form">
+              <mat-form-field class="nameInput">
+                <input matInput placeholder="Name">
+              </mat-form-field>
+            </form>
+          </div>
+          <div class="exhibitText">Exhibit:</div>
+          <div>
+            <mat-form-field>
+                <select matNativeControl required>
+                  <option value="volvo">Rabbits</option>
+                  <option value="saab">Bears</option>
+                  <option value="mercedes">Flies</option>
+                  <option value="audi">Pandas</option>
+                </select>
+              </mat-form-field>
+          </div>
+          <button mat-button class="button">Add Show</button>
+        </div>
+        <div class="col-sm">
+            <div class="typeInput">
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Time">
+                  </mat-form-field>
+              </div>
+            <div class="content with-margin">Staff:
+              <br>
+              <mat-form-field>
+                  <select matNativeControl required>
+                    <option value="Rabbits">Monica</option>
+                    <option value="Bears">Robin</option>
+                    <option value="Flies">Jonh</option>
+                    <option value="Pandas">Jonh Doe</option>
+                  </select>
+                </mat-form-field>
+            </div>
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+
+
+        </div>
+    </div>
+
+  </div>
+</mat-card>
+</div>

@@ -1,0 +1,45 @@
+.test {
+  max-width: 45%;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  margin-top: 10%;
+  background-color: #fff3e6
+}
+.header {
+  font-size: 20px;
+}
+
+.row {
+  padding: 15px
+}
+
+.col-sm {
+  font-size: 15px;
+
+}
+.with-margin {
+  margin-bottom: 20px;
+}
+.button {
+  align-content: center;
+  background-color: #ffffe6;
+  width: 100px;
+  margin-top: 30px
+}
+
+.age {
+  margin-left: 10px;
+  max-width: 40px
+}
+/* .exhibitText {
+
+} */
+.nameInput {
+  margin-top: 22px;
+  margin-bottom: 10px
+}
+.typeInput {
+  margin-top: 22px;
+  margin-bottom: 10px
+}

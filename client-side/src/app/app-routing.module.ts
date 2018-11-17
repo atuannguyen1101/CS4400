@@ -1,3 +1,4 @@
+import { ShowAddDetailComponent } from './add-detail/show-add-detail/show-add-detail.component';
 import { AnimalDetailViewComponent } from './detail-view/animal-detail-view/animal-detail-view.component';
 import { ExhibitDetailViewComponent } from './detail-view/exhibit-detail-view/exhibit-detail-view.component';
 import { AnimalDetailComponent } from './add-detail/animal-detail/animal-detail.component';
@@ -35,7 +36,8 @@ const routes: Routes = [
     { path: 'home-admin', component: HomeAdminComponent},
     { path: 'animal-detail-add', component: AnimalDetailComponent},
     { path: 'animal-detail', component: AnimalDetailViewComponent},
-    { path: 'exibit-detail', component: ExhibitDetailViewComponent}
+    { path: 'exibit-detail', component: ExhibitDetailViewComponent},
+    { path: 'add-show', component: ShowAddDetailComponent}
 ];
 
 @NgModule({
@@ -47,5 +49,6 @@ export class AppRoutingModule { }
 export const RoutingComponents = [LoginComponent, RegisterComponent, ForgotpassComponent,
    MainComponent, HomeComponent, DetailViewComponent, SearchDetailComponent, ShowViewComponent,
     HistoryViewComponent, AddDetailComponent, HomeAdminComponent, HomeVisitorComponent,
-     HomeStaffComponent, AnimalDetailComponent, AnimalDetailViewComponent, ExhibitDetailViewComponent];
+     HomeStaffComponent, AnimalDetailComponent, AnimalDetailViewComponent,
+      ExhibitDetailViewComponent, ShowAddDetailComponent];
 
