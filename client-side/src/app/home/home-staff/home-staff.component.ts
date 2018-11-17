@@ -12,4 +12,9 @@ export class HomeStaffComponent implements OnInit {
   ngOnInit() {
   }
 
+  direct() {
+    
+
+  }
+
 }
