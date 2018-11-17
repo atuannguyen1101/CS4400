@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './footer/footer.component';
 import { AppMaterialModule } from './app-material/app-material.module';
+import { SpinnerModule } from 'primeng/components/spinner/spinner';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AppMaterialModule } from './app-material/app-material.module';
     AppMaterialModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

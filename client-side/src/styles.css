@@ -3,3 +3,8 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 /* html, body { height: 100%; } */
 /* body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+
+/* Over write the spinner box */
+body .ui-inputtext {
+    padding: 0.90em !important;
+}

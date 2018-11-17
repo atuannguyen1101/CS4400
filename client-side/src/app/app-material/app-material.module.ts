@@ -6,6 +6,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+
 
 @NgModule({
   imports: [
@@ -16,7 +20,10 @@ import { MatChipsModule } from '@angular/material/chips';
     MatFormFieldModule,
     MatButtonToggleModule,
     MatTabsModule,
-    MatChipsModule
+    MatChipsModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatTableModule
   ],
   exports: [
     MatInputModule,
@@ -25,7 +32,10 @@ import { MatChipsModule } from '@angular/material/chips';
     MatFormFieldModule,
     MatButtonToggleModule,
     MatTabsModule,
-    MatChipsModule
+    MatChipsModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatTableModule
   ],
   declarations: []
 })
