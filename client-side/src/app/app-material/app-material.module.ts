@@ -6,6 +6,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -16,7 +20,12 @@ import { MatChipsModule } from '@angular/material/chips';
     MatFormFieldModule,
     MatButtonToggleModule,
     MatTabsModule,
-    MatChipsModule
+    MatChipsModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     MatInputModule,
@@ -25,8 +34,14 @@ import { MatChipsModule } from '@angular/material/chips';
     MatFormFieldModule,
     MatButtonToggleModule,
     MatTabsModule,
-    MatChipsModule
+    MatChipsModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
-  declarations: []
+  declarations: [],
+  providers: [MatDatepickerModule]
 })
 export class AppMaterialModule { }

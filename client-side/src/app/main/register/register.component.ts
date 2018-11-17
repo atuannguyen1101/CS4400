@@ -25,8 +25,7 @@ export class RegisterComponent implements OnInit {
   // Variables declaration
   usersTypes: {} = [
     {'value' : 'Visitor'},
-    {'value' : 'Exhibit'},
-    {'value' : 'Manager'}
+    {'value' : 'Staff'}
   ];
 
   // Handle for invalid email

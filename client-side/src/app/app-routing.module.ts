@@ -18,7 +18,6 @@ import { MainComponent } from './main/main.component';
 import { HomeComponent } from './home/home.component';
 import { HistoryViewComponent } from './history-view/history-view.component';
 
-
 const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'index', component: MainComponent},
