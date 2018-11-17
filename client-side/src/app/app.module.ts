@@ -23,6 +23,9 @@ import { SpinnerModule } from 'primeng/components/spinner/spinner';
     ReactiveFormsModule,
     SpinnerModule
   ],
+  exports: [
+    BrowserAnimationsModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

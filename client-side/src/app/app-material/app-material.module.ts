@@ -9,7 +9,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-
+import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -23,7 +23,9 @@ import { MatTableModule } from '@angular/material/table';
     MatChipsModule,
     MatPaginatorModule,
     MatSelectModule,
-    MatTableModule
+    MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     MatInputModule,
@@ -35,8 +37,11 @@ import { MatTableModule } from '@angular/material/table';
     MatChipsModule,
     MatPaginatorModule,
     MatSelectModule,
-    MatTableModule
+    MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
-  declarations: []
+  declarations: [],
+  providers: [MatDatepickerModule]
 })
 export class AppMaterialModule { }

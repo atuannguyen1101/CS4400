@@ -1,0 +1,33 @@
+.test {
+  max-width: 45%;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  margin-top: 10%;
+  background-color: #fff3e6
+}
+.header {
+  font-size: 20px;
+}
+
+.row {
+  padding: 15px
+}
+
+.col-sm {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.button {
+  align-content: center;
+  background-color: #ffffe6;
+  width: 100px;
+
+
+}
+.buttonLayout {
+  align-self: center;
+  padding-left: 40%
+
+}

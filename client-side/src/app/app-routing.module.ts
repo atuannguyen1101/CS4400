@@ -1,3 +1,10 @@
+import { ShowAddDetailComponent } from './add-detail/show-add-detail/show-add-detail.component';
+import { AnimalDetailViewComponent } from './detail-view/animal-detail-view/animal-detail-view.component';
+import { ExhibitDetailViewComponent } from './detail-view/exhibit-detail-view/exhibit-detail-view.component';
+import { AnimalDetailComponent } from './add-detail/animal-detail/animal-detail.component';
+import { HomeStaffComponent } from './home/home-staff/home-staff.component';
+import { HomeAdminComponent } from './home/home-admin/home-admin.component';
+import { HomeVisitorComponent } from './home/home-visitor/home-visitor.component';
 import { AddDetailComponent } from './add-detail/add-detail.component';
 import { ShowViewComponent } from './show-view/show-view.component';
 import { SearchDetailComponent } from './search-detail/search-detail.component';
@@ -22,7 +29,14 @@ const routes: Routes = [
     { path: 'search-detail', component: SearchDetailComponent },
     { path: 'show-view', component: ShowViewComponent },
     { path: 'history-view', component: HistoryViewComponent },
-    { path: 'add-detail', component: AddDetailComponent }
+    { path: 'add-detail', component: AddDetailComponent },
+    { path: 'home-visitor', component: HomeVisitorComponent},
+    { path: 'home-staff', component: HomeStaffComponent},
+    { path: 'home-admin', component: HomeAdminComponent},
+    { path: 'animal-detail-add', component: AnimalDetailComponent},
+    { path: 'animal-detail', component: AnimalDetailViewComponent},
+    { path: 'exibit-detail', component: ExhibitDetailViewComponent},
+    { path: 'add-show', component: ShowAddDetailComponent}
 ];
 
 @NgModule({
@@ -31,4 +45,9 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 
-export const RoutingComponents = [LoginComponent, RegisterComponent, ForgotpassComponent, MainComponent, HomeComponent, DetailViewComponent, SearchDetailComponent, ShowViewComponent, HistoryViewComponent, AddDetailComponent];
+export const RoutingComponents = [LoginComponent, RegisterComponent, ForgotpassComponent,
+   MainComponent, HomeComponent, DetailViewComponent, SearchDetailComponent, ShowViewComponent,
+    HistoryViewComponent, AddDetailComponent, HomeAdminComponent, HomeVisitorComponent,
+     HomeStaffComponent, AnimalDetailComponent, AnimalDetailViewComponent,
+      ExhibitDetailViewComponent, ShowAddDetailComponent];
+
