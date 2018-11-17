@@ -25,4 +25,21 @@
   align-content: center;
   background-color: #ffffe6;
   width: 100px;
+  margin-top: 30px
+}
+
+.age {
+  margin-left: 10px;
+  max-width: 40px
+}
+/* .exhibitText {
+
+} */
+.nameInput {
+  margin-top: 22px;
+  margin-bottom: 10px
+}
+.typeInput {
+  margin-top: 22px;
+  margin-bottom: 10px
 }
