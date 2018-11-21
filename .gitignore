@@ -1,0 +1,5 @@
+server-side/node_modules/
+
+server-side/.env # Avoid enviroment variables
+.DS_Store
+.angulardoc.json
