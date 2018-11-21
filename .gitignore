@@ -1,0 +1,3 @@
+server-side/node_modules/
+
+.env # Avoid enviroment variables
