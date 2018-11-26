@@ -8,9 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MainComponent implements OnInit {
 
-  constructor(
-    private route: ActivatedRoute
-  ) {}
+  constructor() {}
 
   // Variables declaration
   background = 'primary';

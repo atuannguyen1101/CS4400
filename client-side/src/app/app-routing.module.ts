@@ -20,7 +20,7 @@ import { HistoryViewComponent } from './history-view/history-view.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
-    { path: 'index', component: MainComponent},
+    // { path: 'index', component: MainComponent},
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'forgotpassword', component: ForgotpassComponent },
