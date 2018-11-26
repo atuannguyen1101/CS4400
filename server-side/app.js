@@ -14,11 +14,11 @@ app.post('/register', (req, res) => {
 	let response = res;
 	let account = req.body;
 	account.password = helper.encrypt(account.password);
-	connection.query(`SELECT * FROM user WHERE username = "${account.username}"`, (err, res, fields) => {
+	connection.query(`SELECT * FROM user WHERE username = "${account.username}" OR email = "${account.email}"`, (err, res, fields) => {
 		// If user already exists
 		if (res.length != 0) {
 			response.send({
-				"message": "fail"
+				"message": "Username or Email already exists!"
 			});
 
 		} else {
@@ -37,8 +37,8 @@ app.post('/login', (req, res) => {
 	let response = res;
 	let account = req.body;
 	account.password = helper.encrypt(account.password);
-	connection.query(`SELECT * FROM user WHERE username = "${account.username}" AND password = "${account.password}"`, (err, res, fields) => {
-		console.log(res);
+	connection.query(`SELECT * FROM user WHERE email = "${account.email}"` 
+			+ `AND password = "${account.password}"`, (err, res, fields) => {
 		if (res.length != 0) {
 			delete res[0]["password"];
 			response.send({
@@ -50,15 +50,15 @@ app.post('/login', (req, res) => {
 				"message": "fail"
 			});
 		}
-	})
-})
+	});
+});
 
 app.post('/addAnimal', (req, res) => {
 	console.log(req.body);
 	res.send({
 		"message": "received"
 	});
-})
+});
 
 app.post('/addShow', (req, res) => {
 	let response = res;
@@ -82,7 +82,7 @@ app.post('/addShow', (req, res) => {
 		// Close database connection
 		connection.end();
 	});
-})
+});
 
 app.listen(process.env.PORT || 5000, () => {
 	console.log("Listening to port: " + process.env.PORT);

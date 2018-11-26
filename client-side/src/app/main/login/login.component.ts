@@ -19,7 +19,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class LoginComponent implements OnInit {
 
-  username: string = '';
+  email: string = '';
   password: string = '';
 
   constructor(private router: Router, private httpClient: HttpClientService) { }
@@ -34,8 +34,8 @@ export class LoginComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  usernameInput(event) {
-    this.username = event.target.value;
+  emailInput(event) {
+    this.email = event.target.value;
   }
 
   passwordInput(event) {
@@ -46,10 +46,13 @@ export class LoginComponent implements OnInit {
   login() {
     // TODO
     this.httpClient.post('/login', {
-      username: this.username,
+      email: this.email,
       password: this.password
     }).subscribe((data) => {
       console.log(data);
+      if (data.message == "success") {
+        this.router.navigate(['detail-view']);
+      }
     })
     this.router.navigate([''])
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { HttpClientService } from '../../http-client.service';
+import { Router } from '@angular/router';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -25,15 +26,15 @@ export class RegisterComponent implements OnInit {
   email: string = '';
   type: string = '';
 
-  constructor(private httpClient: HttpClientService) { }
+  constructor(private httpClient: HttpClientService,
+    private router: Router) { }
 
   ngOnInit() {}
 
   // Variables declaration
   usersTypes: {} = [
     {'value' : 'Visitor'},
-    {'value' : 'Staff'},
-    {'value' : 'Admin'}
+    {'value' : 'Staff'}
   ];
 
   // Handle for invalid email
@@ -76,6 +77,9 @@ export class RegisterComponent implements OnInit {
     }
     this.httpClient.post('/register', account).subscribe((data) => {
       console.log(data);
+      if (data.message == "success") {
+        this.router.navigate(['detail-view']);
+      }
     })
   }
 }
