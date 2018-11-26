@@ -25,12 +25,33 @@ app.post('/register', (req, res) => {
 
 			// Create new User
 			connection.query(`INSERT INTO user VALUES ("${account.username}", "${account.password}", "${account.email}", "${account.type}")`);
+			connection.query(`INSERT INTO ${account.type.toLowerCase()} VALUES ("${account.username}")`);
 			response.send({
 				"message": "success"
-			})
+			});
+		}
+	});
+});
+
+app.post('/login', (req, res) => {
+	let response = res;
+	let account = req.body;
+	account.password = helper.encrypt(account.password);
+	connection.query(`SELECT * FROM user WHERE username = "${account.username}" AND password = "${account.password}"`, (err, res, fields) => {
+		console.log(res);
+		if (res.length != 0) {
+			delete res[0]["password"];
+			response.send({
+				"message": "success",
+				"data": res[0]
+			});
+		} else {
+			response.send({
+				"message": "fail"
+			});
 		}
 	})
-});
+})
 
 app.post('/addAnimal', (req, res) => {
 	console.log(req.body);

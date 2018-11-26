@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { HttpClientService } from '../../http-client.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -18,7 +19,10 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  username: string = '';
+  password: string = '';
+
+  constructor(private router: Router, private httpClient: HttpClientService) { }
 
   ngOnInit() {}
 
@@ -30,10 +34,24 @@ export class LoginComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
+  usernameInput(event) {
+    this.username = event.target.value;
+  }
+
+  passwordInput(event) {
+    this.password = event.target.value;
+  }
+
   // Login clicked
   login() {
     // TODO
-    console.log('Login clicked');
+    this.httpClient.post('/login', {
+      username: this.username,
+      password: this.password
+    }).subscribe((data) => {
+      console.log(data);
+    })
+    this.router.navigate([''])
   }
 
   // Forgot Password clicked route to forgotPassword file
