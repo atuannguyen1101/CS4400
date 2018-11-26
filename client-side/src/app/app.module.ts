@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './footer/footer.component';
 import { AppMaterialModule } from './app-material/app-material.module';
 import { SpinnerModule } from 'primeng/components/spinner/spinner';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { SpinnerModule } from 'primeng/components/spinner/spinner';
     RoutingComponents
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppMaterialModule,

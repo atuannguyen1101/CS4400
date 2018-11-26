@@ -5,55 +5,62 @@ const app = express();
 require('dotenv').config();
 
 
-const connection = require('./db_Connection.js')
+// const connection = require('./db_Connection.js')
 app.use(bodyParser.json());
 app.use(cors());
 
-
-app.get('/', (req, res) => {
+app.post('/addAnimal', (req, res) => {
+	console.log(req.body);
 	res.send({
-		"name": "Tuan"
-	})
+		"message": "received"
+	});
+})
+
+app.post('/addShow', (req, res) => {
+	console.log(req.body);
+	res.send({
+		"message": "received"
+	});
 })
 
 // Make db connection NO NEED AT ALL
-connection.connect((err) => {
-	if (err) {
-        console.error('Error connecting: ' + err.stack);
-        return;
-    }
-	console.log('Connected as id ' + connection.threadId);
-})
+// connection.connect((err) => {
+// 	if (err) {
+//         console.error('Error connecting: ' + err.stack);
+//         return;
+//     }
+// 	console.log('Connected as id ' + connection.threadId);
+// })
 
 
-// Sample query call, this auto make connect to database
-connection.query('SELECT * FROM user',(err, res, fields) => {
+// // Sample query call, this auto make connect to database
+// connection.query('SELECT * FROM user',(err, res, fields) => {
 
-	// Fields here will contail all the information of each attributes in the table
-	// For example it will tell the length, type, nameType, flags.
+// 	// Fields here will contail all the information of each attributes in the table
+// 	// For example it will tell the length, type, nameType, flags.
 
-	if (err) {
-		throw err;
-	}
-	res.forEach(res => {
-		console.log(res)
-	})
-	console.log("username: " + res[0].username) // Res here as an array of objects
+// 	if (err) {
+// 		throw err;
+// 	}
+// 	res.forEach(res => {
+// 		console.log(res)
+// 	})
+// 	console.log("username: " + res[0].username) // Res here as an array of objects
 
-	/** Sample query
-	[ RowDataPacket {
-		    username: 'tnntech',
-		    password: '*5B5EA45DDADC701A33A',
-		    email: 'tnntech@gatech.edu',
-		    user_type: 'Visitor'
-	    }
-    ]
-	*/
-})
+// 	/** Sample query
+// 	[ RowDataPacket {
+// 		    username: 'tnntech',
+// 		    password: '*5B5EA45DDADC701A33A',
+// 		    email: 'tnntech@gatech.edu',
+// 		    user_type: 'Visitor'
+// 	    }
+//     ]
+// 	*/
+// })
 
-// Close database connection
-connection.end();
+// // Close database connection
+// connection.end();
 
-app.listen(process.env.PORT || 8000, () => {
+app.listen(process.env.PORT || 5000, () => {
 	console.log("Listening to port: " + process.env.PORT);
 });

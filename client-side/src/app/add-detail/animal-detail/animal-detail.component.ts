@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClientService } from '../../http-client.service';
 // import { ConsoleReporter } from 'jasmine';
 
 
@@ -16,7 +17,7 @@ export class AnimalDetailComponent implements OnInit {
   specie: string = '';
   exhibit: string = '';
 
-  constructor() { }
+  constructor(private httpClient: HttpClientService) { }
 
   ngOnInit() {
   }
@@ -34,13 +35,15 @@ export class AnimalDetailComponent implements OnInit {
   }
 
   submit() {
-    let req = {
+    let data = {
       name: this.name,
       type: this.type,
       age: this.age,
       specie: this.specie,
       exhibit: this.exhibit
     };
-    console.log(req);
+    this.httpClient.post("/addAnimal", data).subscribe((res) => {
+      console.log(res);
+    });
   }
 }
