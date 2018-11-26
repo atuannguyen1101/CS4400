@@ -4,7 +4,7 @@
         <div class="col-sm-10">
             <mat-form-field appearance="outline" style="width: 100%;">
                 <mat-label>Email Address</mat-label>
-                <input matInput placeholder="Email Address" [errorStateMatcher]="matcher" [formControl]="emailFormControl">
+                <input matInput placeholder="Email Address" [errorStateMatcher]="matcher" [formControl]="emailFormControl" (keyup)="emailInput($event)">
                 <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
                     Please enter a valid email address
                 </mat-error>
@@ -19,7 +19,7 @@
         <div class="col-sm-10">
             <mat-form-field appearance="outline" style="width: 100%;">
                 <mat-label>Username</mat-label>
-                <input matInput placeholder="Username">
+                <input matInput placeholder="Username" (keyup)="usernameInput($event)">
             </mat-form-field>
         </div>
     </div>
@@ -28,7 +28,7 @@
         <div class="col-sm-10">
             <mat-form-field appearance="outline" style="width: 100%;">
                 <mat-label>Password</mat-label>
-                <input matInput placeholder="Placeholder">
+                <input matInput placeholder="Placeholder" (keyup)="passwordInput($event)">
             </mat-form-field>
         </div>
     </div>
@@ -37,7 +37,7 @@
         <div class="col-sm-10">
             <mat-form-field appearance="outline" style="width: 100%;">
                 <mat-label>VerifyPassword</mat-label>
-                <input matInput placeholder="Placeholder">
+                <input matInput placeholder="Placeholder" (keyup)="verifyPasswordInput($event)">
             </mat-form-field>
         </div>
     </div>
