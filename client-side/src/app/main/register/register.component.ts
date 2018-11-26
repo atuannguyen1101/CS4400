@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { HttpClientService } from '../../http-client.service';
+import { Router } from '@angular/router';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -18,7 +20,14 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  username: string = '';
+  password: string = '';
+  verifyPassword: string = '';
+  email: string = '';
+  type: string = '';
+
+  constructor(private httpClient: HttpClientService,
+    private router: Router) { }
 
   ngOnInit() {}
 
@@ -36,13 +45,41 @@ export class RegisterComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
+  usernameInput(event) {
+    this.username = event.target.value;
+  }
+
+  passwordInput(event) {
+    this.password = event.target.value;
+  }
+
+  verifyPasswordInput(event) {
+    this.verifyPassword = event.target.value;
+  }
+
+  emailInput(event) {
+    this.email = event.target.value;
+  }
+
   // User type toggle event click
   toggleClicked(event) {
-      console.log(event);
+    this.type = event;
   }
 
   // Register clicked
   register() {
     // TODO
+    let account = {
+      username: this.username,
+      password: this.password,
+      email: this.email,
+      type: this.type
+    }
+    this.httpClient.post('/register', account).subscribe((data) => {
+      console.log(data);
+      if (data.message == "success") {
+        this.router.navigate(['detail-view']);
+      }
+    })
   }
 }
