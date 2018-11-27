@@ -9,42 +9,45 @@
           <div>
           <form class="example-form">
               <mat-form-field class="nameInput">
-                <input matInput placeholder="Name" (keyup)="nameInput($event)">
+                <input matInput placeholder="Name" name="name" 
+                [(ngModel)]="name" required>
               </mat-form-field>
             </form>
           </div>
-          <div class="exhibitText">Exhibit:</div>
+
+          <!-- Exhibit field -->
           <div>
             <mat-form-field>
-                <select matNativeControl required [(ngModel)]="exhibit">
-                  <option value="Exhibit 1">Exhibit 1</option>
-                  <option value="Exhibit 2">Exhibit 2</option>
-                  <option value="Exhibit 3">Exhibit 3</option>
-                  <option value="Exhibit 4">Exhibit 4</option>
-                </select>
-              </mat-form-field>
+              <mat-select placeholder="Exhibit" [(ngModel)]="exhibit" required>
+                <mat-option *ngFor="let exhibit of exhibitList" [value]="exhibit">
+                  {{exhibit.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
+
+          <div>
+              <mat-form-field>
+                <mat-select placeholder="Staff" [(ngModel)]="staff" required>
+                  <mat-option *ngFor="let staff of staffList" [value]="staff">
+                    {{staff.username}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
           <button mat-button class="button" (click)="submit()">Add Show</button>
         </div>
+
         <div class="col-sm">
-            <div class="typeInput">
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Time" (keyup)="timeInput($event)">
-                  </mat-form-field>
-              </div>
-            <div class="content with-margin">Staff:
-              <br>
-              <mat-form-field>
-                  <select matNativeControl required [(ngModel)]="staff">
-                    <option value="Monica">Monica</option>
-                    <option value="Robin">Robin</option>
-                    <option value="Bob">Bob</option>
-                    <option value="John">John</option>
-                  </select>
+              <mat-form-field class="timeInput">
+                  <input matInput placeholder="Time" [ngxTimepicker]="fullTime" [format]="24" readonly 
+                    [(ngModel)]="time" name="time" required>
+                  <ngx-material-timepicker #fullTime></ngx-material-timepicker>
                 </mat-form-field>
-            </div>
+              
             <mat-form-field>
-                <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="date">
+                <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="date" required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>

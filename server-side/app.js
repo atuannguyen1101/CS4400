@@ -20,6 +20,16 @@ app.get('/exhibitList', (req, res) => {
 	});
 });
 
+app.get('/staffList', (req, res) => {
+	let response = res;
+	connection.query("SELECT username FROM staff", (err, res, fields) => {
+		response.send({
+			"message": "success",
+			"data": res
+		});
+	});
+});
+
 app.post('/register', (req, res) => {
 	let response = res;
 	let account = req.body;
@@ -68,36 +78,38 @@ app.post('/login', (req, res) => {
 
 app.post('/addAnimal', (req, res) => {
 	let animal = req.body;
-	let request = req;
+	let response = res;
 	connection.query(`INSERT INTO animal VALUES` + 
-		`("${animal.name}", "${animal.specie}", "${animal.type}", "${animal.age}", "${animal.exhibit}")`)
-	res.send({
-		"message": "received"
-	});
+		`("${animal.name}", "${animal.specie}", "${animal.type}", "${animal.age}", "${animal.exhibit}")`,
+		(err, res, fields) => {
+			if (err) {
+				response.send({
+					"message": "fail"
+				});
+			} else {
+				response.send({
+					"message": "success"
+				})
+			}
+		});
 });
 
 app.post('/addShow', (req, res) => {
+	let show = req.body;
 	let response = res;
-	connection.query('SELECT * FROM user',(err, res, fields) => {
-
-		// Fields here will contail all the information of each attributes in the table
-		// For example it will tell the length, type, nameType, flags.
-	
-		if (err) {
-			throw err;
-		}
-		res.forEach(res => {
-			console.log(res);
-		})
-		console.log("username: " + res[0].username);
-
-		response.send({
-			"message": "received"
+	connection.query(`INSERT INTO shows VALUES` + 
+		`("${show.name}", "${show.date}", "${show.staff}", "${show.exhibit}")`,
+		(err, res, fields) => {
+			if (err) {
+				response.send({
+					"message": "fail"
+				});
+			} else {
+				response.send({
+					"message": "success"
+				})
+			}
 		});
-
-		// Close database connection
-		connection.end();
-	});
 });
 
 app.listen(process.env.PORT || 5000, () => {
