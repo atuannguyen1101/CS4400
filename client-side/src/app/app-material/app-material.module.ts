@@ -11,6 +11,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
     MatTableModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
+    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
+    NgxMaterialTimepickerModule.forRoot()
   ],
   exports: [
     MatInputModule,
@@ -41,7 +43,8 @@ import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
     MatSelectModule,
     MatTableModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgxMaterialTimepickerModule
   ],
   declarations: [],
   providers: [MatDatepickerModule]
