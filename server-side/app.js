@@ -49,6 +49,9 @@ app.post('/login', (req, res) => {
 	account.password = helper.encrypt(account.password);
 	connection.query(`SELECT * FROM user WHERE email = "${account.email}"` 
 			+ `AND password = "${account.password}"`, (err, res, fields) => {
+		if (err) {
+			throw err
+		}
 		if (res.length != 0) {
 			delete res[0]["password"];
 			response.send({
@@ -66,7 +69,8 @@ app.post('/login', (req, res) => {
 app.post('/addAnimal', (req, res) => {
 	let animal = req.body;
 	let request = req;
-	connection.query(`INSERT INTO animal VALUES `)
+	connection.query(`INSERT INTO animal VALUES` + 
+		`("${animal.name}", "${animal.specie}", "${animal.type}", "${animal.age}", "${animal.exhibit}")`)
 	res.send({
 		"message": "received"
 	});

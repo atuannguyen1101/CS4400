@@ -29,19 +29,21 @@
           <button mat-button class="button" (click)="submit()">Add Animal</button>
         </div>
         <div class="col-sm">
-            <div class="typeInput">
+            <div class="specieInput">
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Type" (keyup)="typeInput($event)">
-                  </mat-form-field>
-              </div>
-            <div class="content with-margin">Species:
+                    <input matInput placeholder="Specie" (keyup)="specieInput($event)">
+                </mat-form-field>
+            </div>
+            <div class="content with-margin">Type:
               <br>
               <mat-form-field>
-                  <select matNativeControl required [(ngModel)]="specie">
-                    <option value="Rabbits">Rabbits</option>
-                    <option value="Bears">Bears</option>
-                    <option value="Flies">Flies</option>
-                    <option value="Pandas">Pandas</option>
+                  <select matNativeControl required [(ngModel)]="type">
+                    <option value="Mammal">Mammal</option>
+                    <option value="Bird">Bird</option>
+                    <option value="Amphibian">Amphibian</option>
+                    <option value="Reptile">Reptile</option>
+                    <option value="Fish">Fish</option>
+                    <option value="Invertebrate">Invertebrate</option>
                   </select>
                 </mat-form-field>
             </div>

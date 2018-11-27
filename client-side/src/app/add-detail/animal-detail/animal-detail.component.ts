@@ -26,8 +26,8 @@ export class AnimalDetailComponent implements OnInit {
     })
   }
 
-  typeInput(event) {
-    this.type = event.target.value;
+  specieInput(event) {
+    this.specie = event.target.value;
   }
 
   nameInput(event) {
