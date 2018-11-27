@@ -1,0 +1,79 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<div class="test">
+  <mat-card>
+    <mat-card-header class="header">Animal Care</mat-card-header>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <div>Name:</div>
+          </div>
+          <div class="col-sm">
+              <div>Species:</div>
+          </div>
+          <div class="col-sm">
+              <div>Age:</div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+              <div>Exhibit:</div>
+            </div>
+            <div class="col-sm">
+                <div>Type:</div>
+              </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <form class="example-form">
+                    <mat-form-field class="nameInput">
+                      <input matInput placeholder="Add notes">
+                    </mat-form-field>
+                  </form>
+            </div>
+            <div class="col-sm">
+
+                <div class="buttonLayout">
+                    <button mat-button class="button">Log Notes</button>
+                  </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" class="table" matSort>
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Staff Member Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Staff Member  </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+
+      <!-- Note Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Note</th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- Time Column -->
+      <ng-container matColumnDef="species">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Time </th>
+        <td mat-cell *matCellDef="let element"> {{element.species}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [length]="5" [pageSize]="3" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+  </mat-card>
+</div>
