@@ -1,3 +1,4 @@
+import { ViewVisitorsComponent } from './detail-view/view-visitors/view-visitors.component';
 import { navTopComponent } from './main/navTop/navTop.component';
 import { ShowAddDetailComponent } from './add-detail/show-add-detail/show-add-detail.component';
 import { AnimalDetailViewComponent } from './detail-view/animal-detail-view/animal-detail-view.component';
@@ -19,6 +20,9 @@ import { MainComponent } from './main/main.component';
 import { HomeComponent } from './home/home.component';
 import { HistoryViewComponent } from './history-view/history-view.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { ExhibitHistoryComponent } from './history-view/exhibit-history/exhibit-history.component';
+import { ShowHistoryComponent } from './history-view/show-history/show-history.component';
+import { ViewStaffComponent } from './detail-view/view-staff/view-staff.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [ AuthGuard ] },
@@ -38,7 +42,12 @@ const routes: Routes = [
     { path: 'animal-detail-add', component: AnimalDetailComponent},
     { path: 'animal-detail', component: AnimalDetailViewComponent},
     { path: 'exibit-detail', component: ExhibitDetailViewComponent},
-    { path: 'add-show', component: ShowAddDetailComponent}
+    { path: 'add-show', component: ShowAddDetailComponent},
+    { path: 'exhibit-history', component: ExhibitHistoryComponent},
+    { path: 'show-history', component: ShowHistoryComponent},
+    { path: 'admin-view-staff', component: ViewStaffComponent},
+    { path: 'admin-view-visitors', component: ViewVisitorsComponent}
+
 ];
 
 @NgModule({
@@ -50,6 +59,6 @@ export class AppRoutingModule { }
 export const RoutingComponents = [
     LoginComponent, RegisterComponent, ForgotpassComponent,
     MainComponent, HomeComponent, DetailViewComponent, SearchDetailComponent, ShowViewComponent,HistoryViewComponent, AddDetailComponent, HomeAdminComponent, HomeVisitorComponent,HomeStaffComponent, AnimalDetailComponent, AnimalDetailViewComponent,ExhibitDetailViewComponent, ShowAddDetailComponent,
-    navTopComponent
+    navTopComponent, ExhibitHistoryComponent, ShowHistoryComponent, ViewStaffComponent, ViewVisitorsComponent
 ];
 

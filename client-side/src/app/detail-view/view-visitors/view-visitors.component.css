@@ -1,0 +1,23 @@
+.test {
+  max-width: 600px;
+  margin: auto;
+  width: 600px;
+  padding: 10px;
+  margin-top: 10%;
+  background-color: #fff3e6
+}
+.header {
+  font-size: 20px;
+}
+
+.table {
+  width: 100%;
+}
+td, th {
+  width: 25%;
+}
+.button {
+  align-content: center;
+  background-color: #ffffe6;
+  margin-top: 30px
+}
