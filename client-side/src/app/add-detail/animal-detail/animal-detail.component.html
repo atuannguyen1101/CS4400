@@ -11,51 +11,43 @@
           <div>
           <form class="example-form">
               <mat-form-field class="nameInput">
-                <input matInput placeholder="Name" (keyup)="nameInput($event)">
+                <input matInput placeholder="Name" [(ngModel)]="name" required name="name">
               </mat-form-field>
             </form>
           </div>
-          <div class="exhibitText">Exhibit:</div>
+
           <div>
             <mat-form-field>
-                <select matNativeControl required [(ngModel)]="exhibit">
-                  <option value="Exhibit 1">Exhibit 1</option>
-                  <option value="Exhibit 2">Exhibit 2</option>
-                  <option value="Exhibit 3">Exhibit 3</option>
-                  <option value="Exhibit 4">Exhibit 4</option>
-                </select>
-              </mat-form-field>
+              <mat-select placeholder="Exhibit" [(ngModel)]="exhibit" required>
+                <mat-option *ngFor="let exhibit of exhibitList" [value]="exhibit">
+                  {{exhibit.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
+
           <button mat-button class="button" (click)="submit()">Add Animal</button>
         </div>
         <div class="col-sm">
             <div class="specieInput">
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Specie" (keyup)="specieInput($event)">
+                    <input matInput placeholder="Specie" name="specie" required [(ngModel)]="specie">
                 </mat-form-field>
             </div>
-            <div class="content with-margin">Type:
-              <br>
+            <div>
               <mat-form-field>
-                  <select matNativeControl required [(ngModel)]="type">
-                    <option value="Mammal">Mammal</option>
-                    <option value="Bird">Bird</option>
-                    <option value="Amphibian">Amphibian</option>
-                    <option value="Reptile">Reptile</option>
-                    <option value="Fish">Fish</option>
-                    <option value="Invertebrate">Invertebrate</option>
-                  </select>
-                </mat-form-field>
+                <mat-select placeholder="Type" [(ngModel)]="type" required>
+                  <mat-option *ngFor="let type of typeList" [value]="type">
+                    {{type}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
 
-            <div class="content with-margin">Age:
+            <div class="content with-margin">
                 <mat-form-field class="age">
-                    <select matNativeControl required [(ngModel)]="age"> 
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                    </select>
+                    <input matInput placeholder="Age" type="number" [(ngModel)]="age" 
+                    name="age_field" ng-pattern="/^(0|\-?[1-9][0-9]*)$/" required>
                   </mat-form-field>
 
             </div>
