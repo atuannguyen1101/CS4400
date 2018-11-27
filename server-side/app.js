@@ -43,7 +43,7 @@ app.post('/register', (req, res) => {
 	account.password = helper.encrypt(account.password);
 	connection.query(`SELECT * FROM user WHERE username = "${account.username}" OR email = "${account.email}"`, (err, res, fields) => {
 		// If user already exists
-		if (res == undefined) {
+		if (res && res.length != 0) {
 			response.send({
 				"message": "Username or Email already exists!"
 			});

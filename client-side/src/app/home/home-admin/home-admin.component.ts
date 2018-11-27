@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-admin',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeAdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
@@ -24,4 +25,12 @@ export class HomeAdminComponent implements OnInit {
     'Log out'
   ];
 
+  direct(event) {
+    let command = event.target.innerText;
+    if (command == "Add Show") {
+      this.router.navigate(["add-show"]);
+    } else if (command == "Log out") {
+      this.router.navigate(["login"]);
+    }
+  }
 }

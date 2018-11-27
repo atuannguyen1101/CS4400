@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-staff',
@@ -7,14 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeStaffComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
-  direct() {
-    
-
+  direct(event) {
+    let command = event.target.innerText;
+    if (command == "Log out") {
+      this.router.navigate(["login"]);
+    }
   }
 
 }

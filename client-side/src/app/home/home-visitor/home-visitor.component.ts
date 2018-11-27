@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-visitor',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeVisitorComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
@@ -23,4 +24,11 @@ export class HomeVisitorComponent implements OnInit {
     'View show history',
     'Log out'
   ];
+
+  direct(event) {
+    let command = event.target.innerText;
+    if (command == "Log out") {
+      this.router.navigate(["login"]);
+    }
+  }
 }
