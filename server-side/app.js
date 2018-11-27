@@ -84,7 +84,7 @@ app.post('/addAnimal', (req, res) => {
 		(err, res, fields) => {
 			if (err) {
 				response.send({
-					"message": "fail"
+					"message": "Combination of Name and Specie is already in the database"
 				});
 			} else {
 				response.send({
@@ -102,7 +102,7 @@ app.post('/addShow', (req, res) => {
 		(err, res, fields) => {
 			if (err) {
 				response.send({
-					"message": "fail"
+					"message": "Constraint, look in documentation"
 				});
 			} else {
 				response.send({
