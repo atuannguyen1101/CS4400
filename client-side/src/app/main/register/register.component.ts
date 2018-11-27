@@ -1,17 +1,9 @@
+import { AuthService } from './../../_guards/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { HttpClientService } from '../../http-client.service';
 import { Router } from '@angular/router';
-
-
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
 
 @Component({
   selector: 'app-register',
@@ -25,41 +17,20 @@ export class RegisterComponent implements OnInit {
   verifyPassword: string = '';
   email: string = '';
   type: string = '';
+  form = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    username: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+    verifyPassword: new FormControl('', Validators.required)
+  })
 
   constructor(private httpClient: HttpClientService,
-    private router: Router) { }
+    private router: Router, private authService: AuthService) { }
 
-  ngOnInit() {}
-
-  // Variables declaration
-  usersTypes: {} = [
-    {'value' : 'Visitor'},
-    {'value' : 'Staff'}
-  ];
-
-  // Handle for invalid email
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-
-  matcher = new MyErrorStateMatcher();
-
-  usernameInput(event) {
-    this.username = event.target.value;
+  ngOnInit() {
+    this.type = "Visitor";
   }
 
-  passwordInput(event) {
-    this.password = event.target.value;
-  }
-
-  verifyPasswordInput(event) {
-    this.verifyPassword = event.target.value;
-  }
-
-  emailInput(event) {
-    this.email = event.target.value;
-  }
 
   // User type toggle event click
   toggleClicked(event) {
@@ -76,9 +47,12 @@ export class RegisterComponent implements OnInit {
       type: this.type
     }
     this.httpClient.post('/register', account).subscribe((data) => {
-      console.log(data);
       if (data.message == "success") {
-        this.router.navigate(['detail-view']);
+        // Save to authServer to keep token
+        this.authService.login({
+          email: this.email,
+          password: this.password
+        });
       }
     })
   }

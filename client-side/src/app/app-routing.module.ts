@@ -1,3 +1,5 @@
+import { ViewVisitorsComponent } from './detail-view/view-visitors/view-visitors.component';
+import { navTopComponent } from './main/navTop/navTop.component';
 import { ShowAddDetailComponent } from './add-detail/show-add-detail/show-add-detail.component';
 import { AnimalDetailViewComponent } from './detail-view/animal-detail-view/animal-detail-view.component';
 import { ExhibitDetailViewComponent } from './detail-view/exhibit-detail-view/exhibit-detail-view.component';
@@ -17,14 +19,18 @@ import { ForgotpassComponent } from './main/forgotpass/forgotpass.component';
 import { MainComponent } from './main/main.component';
 import { HomeComponent } from './home/home.component';
 import { HistoryViewComponent } from './history-view/history-view.component';
+import { AuthGuard } from './_guards/auth.guard';
+import { ExhibitHistoryComponent } from './history-view/exhibit-history/exhibit-history.component';
+import { ShowHistoryComponent } from './history-view/show-history/show-history.component';
+import { ViewStaffComponent } from './detail-view/view-staff/view-staff.component';
 
 const routes: Routes = [
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
-    { path: 'index', component: MainComponent},
+    { path: '', component: HomeComponent, canActivate: [ AuthGuard ] },
+    // { path: '**', redirectTo: "login", pathMatch: "full"},
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'forgotpassword', component: ForgotpassComponent },
     { path: 'home-view', component: HomeComponent },
+    { path: 'forgotpassword', component: ForgotpassComponent },
     { path: 'detail-view', component: DetailViewComponent },
     { path: 'search-detail', component: SearchDetailComponent },
     { path: 'show-view', component: ShowViewComponent },
@@ -36,7 +42,12 @@ const routes: Routes = [
     { path: 'animal-detail-add', component: AnimalDetailComponent},
     { path: 'animal-detail', component: AnimalDetailViewComponent},
     { path: 'exibit-detail', component: ExhibitDetailViewComponent},
-    { path: 'add-show', component: ShowAddDetailComponent}
+    { path: 'add-show', component: ShowAddDetailComponent},
+    { path: 'exhibit-history', component: ExhibitHistoryComponent},
+    { path: 'show-history', component: ShowHistoryComponent},
+    { path: 'admin-view-staff', component: ViewStaffComponent},
+    { path: 'admin-view-visitors', component: ViewVisitorsComponent}
+
 ];
 
 @NgModule({
@@ -45,9 +56,9 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 
-export const RoutingComponents = [LoginComponent, RegisterComponent, ForgotpassComponent,
-   MainComponent, HomeComponent, DetailViewComponent, SearchDetailComponent, ShowViewComponent,
-    HistoryViewComponent, AddDetailComponent, HomeAdminComponent, HomeVisitorComponent,
-     HomeStaffComponent, AnimalDetailComponent, AnimalDetailViewComponent,
-      ExhibitDetailViewComponent, ShowAddDetailComponent];
+export const RoutingComponents = [
+    LoginComponent, RegisterComponent, ForgotpassComponent,
+    MainComponent, HomeComponent, DetailViewComponent, SearchDetailComponent, ShowViewComponent,HistoryViewComponent, AddDetailComponent, HomeAdminComponent, HomeVisitorComponent,HomeStaffComponent, AnimalDetailComponent, AnimalDetailViewComponent,ExhibitDetailViewComponent, ShowAddDetailComponent,
+    navTopComponent, ExhibitHistoryComponent, ShowHistoryComponent, ViewStaffComponent, ViewVisitorsComponent
+];
 

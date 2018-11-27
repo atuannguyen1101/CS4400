@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from '../_guards/auth.service';
 
 @Component({
   selector: 'app-main',
@@ -8,17 +10,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MainComponent implements OnInit {
 
-  constructor(
-    private route: ActivatedRoute
-  ) {}
+  constructor( private authService: AuthService ) {}
 
-  // Variables declaration
-  background = 'primary';
-  navLinks = [
-    { path: 'login', label: 'Login' },
-    { path: 'register', label: 'Registration' },
-    { path: 'forgotpassword', label: 'Forgot Password' }
-  ];
+  isLoggedIn$: Observable<boolean>;
 
-  ngOnInit(){}
+  toggle : string = "true";
+
+  ngOnInit(){
+    this.isLoggedIn$ = this.authService.isLoggedIn;
+    console.log(this.isLoggedIn$);
+    this.toggle = this.isLoggedIn$._isScalar.toString();
+  }
 }

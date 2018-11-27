@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClientService } from '../../http-client.service';
-// import { ConsoleReporter } from 'jasmine';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 
 
@@ -15,23 +17,23 @@ export class AnimalDetailComponent implements OnInit {
   type: string = '';
   age: string = '';
   specie: string = '';
-  exhibit: string = '';
+  exhibit: any;
+  exhibitList: string[];
+  typeList: string[] = ['Mammal', 'Bird', 'Amphibian', 'Reptile', 'Fish', 'Invertebrate'];
+  form = new FormGroup({
+    name: new FormControl('', Validators.required),
+    age: new FormControl(''),
+    type: new FormControl(''),
+    exhibit: new FormControl('', Validators.required),
+    specie: new FormControl('', Validators.required)
+  })
 
   constructor(private httpClient: HttpClientService) { }
 
   ngOnInit() {
-  }
-
-  typeInput(event) {
-    this.type = event.target.value;
-  }
-
-  nameInput(event) {
-    this.name = event.target.value;
-  }
-
-  ageInput(event) {
-    console.log(event);
+    this.httpClient.get('/exhibitList').subscribe(data => {
+      this.exhibitList = data.data;
+    })
   }
 
   submit() {
@@ -40,7 +42,7 @@ export class AnimalDetailComponent implements OnInit {
       type: this.type,
       age: this.age,
       specie: this.specie,
-      exhibit: this.exhibit
+      exhibit: this.exhibit.name
     };
     this.httpClient.post("/addAnimal", data).subscribe((res) => {
       console.log(res);
