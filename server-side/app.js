@@ -2,8 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
+const session = require('express-session')
 const helper = require('../server-side/helpers/crypto');
 require('dotenv').config();
+
+app.use(session({
+	secret: 'vfsddasdas1234444444242423423asdasdadadada',
+	saveUninitialized: false,
+	resave: false
+}))
 
 
 const connection = require('./db_Connection.js')
@@ -36,7 +43,7 @@ app.post('/register', (req, res) => {
 	account.password = helper.encrypt(account.password);
 	connection.query(`SELECT * FROM user WHERE username = "${account.username}" OR email = "${account.email}"`, (err, res, fields) => {
 		// If user already exists
-		if (res.length != 0) {
+		if (res == undefined) {
 			response.send({
 				"message": "Username or Email already exists!"
 			});
@@ -57,17 +64,19 @@ app.post('/login', (req, res) => {
 	let response = res;
 	let account = req.body;
 	account.password = helper.encrypt(account.password);
-	connection.query(`SELECT * FROM user WHERE email = "${account.email}"` 
+	connection.query(`SELECT * FROM user WHERE email = "${account.email}"`
 			+ `AND password = "${account.password}"`, (err, res, fields) => {
 		if (err) {
 			throw err
 		}
-		if (res.length != 0) {
+		if (res) {
 			delete res[0]["password"];
 			response.send({
 				"message": "success",
 				"data": res[0]
 			});
+			req.session.user = account.email; // Add to session
+			req.session.save()
 		} else {
 			response.send({
 				"message": "fail"
@@ -79,7 +88,7 @@ app.post('/login', (req, res) => {
 app.post('/addAnimal', (req, res) => {
 	let animal = req.body;
 	let response = res;
-	connection.query(`INSERT INTO animal VALUES` + 
+	connection.query(`INSERT INTO animal VALUES` +
 		`("${animal.name}", "${animal.specie}", "${animal.type}", "${animal.age}", "${animal.exhibit}")`,
 		(err, res, fields) => {
 			if (err) {
@@ -97,7 +106,7 @@ app.post('/addAnimal', (req, res) => {
 app.post('/addShow', (req, res) => {
 	let show = req.body;
 	let response = res;
-	connection.query(`INSERT INTO shows VALUES` + 
+	connection.query(`INSERT INTO shows VALUES` +
 		`("${show.name}", "${show.date}", "${show.staff}", "${show.exhibit}")`,
 		(err, res, fields) => {
 			if (err) {
@@ -112,6 +121,11 @@ app.post('/addShow', (req, res) => {
 		});
 });
 
+app.get('/api/data', (req, res) => {
+	console.log(req.session.user)
+	res.json(req.session)
+})
+
 app.listen(process.env.PORT || 5000, () => {
-	console.log("Listening to port: " + process.env.PORT);  
+	console.log("Listening to port: " + process.env.PORT);
 });

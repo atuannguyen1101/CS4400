@@ -1,12 +1,4 @@
-<div class="middleDiv">
-    <nav mat-tab-nav-bar mat-stretch-tabs [backgroundColor]="background">
-        <a mat-tab-link
-            *ngFor="let link of navLinks"
-            [routerLink]="link.path"
-            routerLinkActive #rla="routerLinkActive"
-            [active]="rla.isActive">
-            {{link.label}}
-        </a>
-    </nav>
-    <router-outlet></router-outlet>
+
+<div class="middleDiv" *ngIf="toggle === 'false'">
+    <app-navtop></app-navtop>
 </div>
