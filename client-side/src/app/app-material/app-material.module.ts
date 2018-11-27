@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatInputModule, MatButtonModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
@@ -25,7 +26,8 @@ import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
     MatSelectModule,
     MatTableModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
   ],
   exports: [
     MatInputModule,

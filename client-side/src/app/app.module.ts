@@ -1,3 +1,5 @@
+import { AuthService } from './_guards/auth.service';
+import { AuthGuard } from './_guards/auth.guard';
 import { AppRoutingModule, RoutingComponents } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -28,7 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
   exports: [
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
