@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClientService } from '../../http-client.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-// import { ConsoleReporter } from 'jasmine';
 
 
 
@@ -19,9 +18,15 @@ export class AnimalDetailComponent implements OnInit {
   age: string = '';
   specie: string = '';
   exhibit: any;
-  test: string = '';
   exhibitList: string[];
   typeList: string[] = ['Mammal', 'Bird', 'Amphibian', 'Reptile', 'Fish', 'Invertebrate'];
+  form = new FormGroup({
+    name: new FormControl('', Validators.required),
+    age: new FormControl(''),
+    type: new FormControl(''),
+    exhibit: new FormControl('', Validators.required),
+    specie: new FormControl('', Validators.required)
+  })
 
   constructor(private httpClient: HttpClientService) { }
 

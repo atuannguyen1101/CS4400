@@ -1,18 +1,9 @@
 import { AuthService } from './../../_guards/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { HttpClientService } from '../../http-client.service';
 import { Router } from '@angular/router';
-
-
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
 
 @Component({
   selector: 'app-register',
@@ -26,25 +17,20 @@ export class RegisterComponent implements OnInit {
   verifyPassword: string = '';
   email: string = '';
   type: string = '';
+  form = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    username: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+    verifyPassword: new FormControl('', Validators.required)
+  })
 
   constructor(private httpClient: HttpClientService,
     private router: Router, private authService: AuthService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.type = "Visitor";
+  }
 
-  // Variables declaration
-  usersTypes: {} = [
-    {'value' : 'Visitor'},
-    {'value' : 'Staff'}
-  ];
-
-  // Handle for invalid email
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-
-  matcher = new MyErrorStateMatcher();
 
   // User type toggle event click
   toggleClicked(event) {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClientService } from '../../http-client.service';
 import { Time } from '@angular/common';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 declare const moment: any;
 
@@ -19,6 +20,13 @@ export class ShowAddDetailComponent implements OnInit {
   picker: string;
   exhibitList: string[];
   staffList: string[];
+  form = new FormGroup({
+    name: new FormControl('', Validators.required),
+    exhibit: new FormControl('', Validators.required),
+    staff: new FormControl('', Validators.required),
+    time: new FormControl('', Validators.required),
+    date: new FormControl('', Validators.required)
+  })
 
   constructor(private httpClient: HttpClientService) { }
 

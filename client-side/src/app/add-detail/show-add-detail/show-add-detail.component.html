@@ -1,61 +1,61 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
 <div class="test">
-<mat-card>
-  <mat-card-header class="header">Add Show</mat-card-header>
-  <div class="container">
-    <div class="row">
-        <div class="col-sm">
-          <div>
-          <form class="example-form">
-              <mat-form-field class="nameInput">
-                <input matInput placeholder="Name" name="name" 
-                [(ngModel)]="name" required>
-              </mat-form-field>
+    <mat-card>
+    <mat-card-header class="header">Add Show</mat-card-header>
+        <div class="container">
+            <form [formGroup]="form">
+                <div class="row">
+                    <div class="col-sm">
+                        <div>
+                            <mat-form-field class="nameInput">
+                                <input matInput placeholder="Name"
+                                [(ngModel)]="name" required formControlName="name">
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Exhibit field -->
+                        <div>
+                            <mat-form-field>
+                            <mat-select placeholder="Exhibit" [(ngModel)]="exhibit" 
+                            required formControlName="exhibit">
+                                <mat-option *ngFor="let exhibit of exhibitList" [value]="exhibit">
+                                {{exhibit.name}}
+                                </mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <mat-select placeholder="Staff" [(ngModel)]="staff" 
+                                required formControlName="staff">
+                                <mat-option *ngFor="let staff of staffList" [value]="staff">
+                                    {{staff.username}}
+                                </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <button mat-button class="button" (click)="submit()">Add Show</button>
+                    </div>
+
+                    <div class="col-sm">
+                        <mat-form-field class="timeInput">
+                            <input matInput placeholder="Time" [ngxTimepicker]="fullTime" [format]="24" readonly 
+                                [(ngModel)]="time" required formControlName="time">
+                            <ngx-material-timepicker #fullTime></ngx-material-timepicker>
+                            </mat-form-field>
+                    
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="picker" placeholder="Choose a date" 
+                            [(ngModel)]="date" required formControlName="date">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
             </form>
-          </div>
-
-          <!-- Exhibit field -->
-          <div>
-            <mat-form-field>
-              <mat-select placeholder="Exhibit" [(ngModel)]="exhibit" required>
-                <mat-option *ngFor="let exhibit of exhibitList" [value]="exhibit">
-                  {{exhibit.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-          <div>
-              <mat-form-field>
-                <mat-select placeholder="Staff" [(ngModel)]="staff" required>
-                  <mat-option *ngFor="let staff of staffList" [value]="staff">
-                    {{staff.username}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-          <button mat-button class="button" (click)="submit()">Add Show</button>
         </div>
-
-        <div class="col-sm">
-              <mat-form-field class="timeInput">
-                  <input matInput placeholder="Time" [ngxTimepicker]="fullTime" [format]="24" readonly 
-                    [(ngModel)]="time" name="time" required>
-                  <ngx-material-timepicker #fullTime></ngx-material-timepicker>
-                </mat-form-field>
-              
-            <mat-form-field>
-                <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="date" required>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-
-
-        </div>
-    </div>
-
-  </div>
-</mat-card>
+    </mat-card>
 </div>

@@ -91,6 +91,7 @@ app.post('/login', (req, res) => {
 app.post('/addAnimal', (req, res) => {
 	let animal = req.body;
 	let response = res;
+	console.log(animal);
 	connection.query(`INSERT INTO animal VALUES` +
 		`("${animal.name}", "${animal.specie}", "${animal.type}", "${animal.age}", "${animal.exhibit}")`,
 		(err, res, fields) => {
@@ -99,6 +100,12 @@ app.post('/addAnimal', (req, res) => {
 					"message": "Combination of Name and Specie is already in the database"
 				});
 			} else {
+				if (!animal.age || animal.age == '') {
+					connection.query(`UPDATE animal SET age = NULL WHERE name="${animal.name}" AND species="${animal.specie}"`);
+				}
+				if (!animal.type || animal.type == '') {
+					connection.query(`UPDATE animal SET type = NULL WHERE name="${animal.name}" AND species="${animal.specie}"`);
+				}
 				response.send({
 					"message": "success"
 				})

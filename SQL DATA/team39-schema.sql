@@ -40,8 +40,8 @@ drop table if exists animal;
 create table animal (
 	name varchar(40) NOT NULL,
 	species varchar(40) NOT NULL,
-	type SET('Mammal', 'Bird', 'Amphibian', 'Reptile', 'Fish', 'Invertebrate') NOT NULL,
-	age smallint NOT NULL,
+	type SET('Mammal', 'Bird', 'Amphibian', 'Reptile', 'Fish', 'Invertebrate'),
+	age smallint,
 	-- number of months
 	exhibit varchar(40) NOT NULL,
 	PRIMARY KEY (name, species),
