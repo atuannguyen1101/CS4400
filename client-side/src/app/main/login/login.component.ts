@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router, private httpClient: HttpClientService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   // Handle for invalid email
   emailFormControl = new FormControl('', [
@@ -51,6 +52,7 @@ export class LoginComponent implements OnInit {
     }).subscribe((data) => {
       console.log(data);
       if (data.message == "success") {
+
         this.router.navigate(['detail-view']);
       }
     })

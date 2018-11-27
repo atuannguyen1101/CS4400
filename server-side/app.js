@@ -10,6 +10,16 @@ const connection = require('./db_Connection.js')
 app.use(bodyParser.json());
 app.use(cors());
 
+app.get('/exhibitList', (req, res) => {
+	let response = res;
+	connection.query("SELECT name FROM exhibit", (err, res, fields) => {
+		response.send({
+			"message": "success",
+			"data": res
+		});
+	});
+});
+
 app.post('/register', (req, res) => {
 	let response = res;
 	let account = req.body;
@@ -54,7 +64,9 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/addAnimal', (req, res) => {
-	console.log(req.body);
+	let animal = req.body;
+	let request = req;
+	connection.query(`INSERT INTO animal VALUES `)
 	res.send({
 		"message": "received"
 	});
@@ -85,5 +97,5 @@ app.post('/addShow', (req, res) => {
 });
 
 app.listen(process.env.PORT || 5000, () => {
-	console.log("Listening to port: " + process.env.PORT);
+	console.log("Listening to port: " + process.env.PORT);  
 });

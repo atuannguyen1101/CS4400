@@ -16,10 +16,14 @@ export class AnimalDetailComponent implements OnInit {
   age: string = '';
   specie: string = '';
   exhibit: string = '';
+  exhibitList: string[];
 
   constructor(private httpClient: HttpClientService) { }
 
   ngOnInit() {
+    this.httpClient.get('/exhibitList').subscribe(data => {
+      this.exhibitList = data;
+    })
   }
 
   typeInput(event) {
@@ -28,10 +32,6 @@ export class AnimalDetailComponent implements OnInit {
 
   nameInput(event) {
     this.name = event.target.value;
-  }
-
-  ageInput(event) {
-    console.log(event);
   }
 
   submit() {
