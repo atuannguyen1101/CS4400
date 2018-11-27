@@ -21,6 +21,11 @@ export class ForgotpassComponent implements OnInit {
 
   ngOnInit() {}
 
+  // Initlize instance variables
+  email: string = '';
+  password: string = '';
+  verifypassword: string = '';
+
   // Handle for invalid email
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -31,6 +36,11 @@ export class ForgotpassComponent implements OnInit {
 
   // Reset password
   resetPassword() {
-    // TODO
+    var newData = {
+      email: this.email,
+      password: this.password,
+      verifypassword: this.verifypassword
+    }
+    // TODO Reset the password
   }
 }

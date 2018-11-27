@@ -1,3 +1,4 @@
+import { AuthService } from './../../_guards/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
   email: string = '';
   password: string = '';
 
-  constructor(private router: Router, private httpClient: HttpClientService) { }
+  constructor(private router: Router, private httpClient: HttpClientService, private authService: AuthService) { }
 
   ngOnInit() {
   }
@@ -35,28 +36,25 @@ export class LoginComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  emailInput(event) {
-    this.email = event.target.value;
-  }
-
-  passwordInput(event) {
-    this.password = event.target.value;
-  }
-
   // Login clicked
   login() {
-    // TODO
-    this.httpClient.post('/login', {
+    const user = {
       email: this.email,
       password: this.password
-    }).subscribe((data) => {
+    }
+    this.httpClient.post('/login', user).subscribe((data) => {
       console.log(data);
       if (data.message == "success") {
+        // this.authService.login(user); // Save to authServer to keep token
+        // this.router.navigate(['home-view'])
+        this.httpClient.get('/api/data').subscribe((data) => {
+          console.log(data)
+        })
 
         this.router.navigate(['detail-view']);
       }
     })
-    this.router.navigate([''])
+    // this.router.navigate([''])
   }
 
   // Forgot Password clicked route to forgotPassword file

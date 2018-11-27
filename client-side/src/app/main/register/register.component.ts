@@ -1,3 +1,4 @@
+import { AuthService } from './../../_guards/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -27,7 +28,7 @@ export class RegisterComponent implements OnInit {
   type: string = '';
 
   constructor(private httpClient: HttpClientService,
-    private router: Router) { }
+    private router: Router, private authService: AuthService) { }
 
   ngOnInit() {}
 
@@ -45,22 +46,6 @@ export class RegisterComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  usernameInput(event) {
-    this.username = event.target.value;
-  }
-
-  passwordInput(event) {
-    this.password = event.target.value;
-  }
-
-  verifyPasswordInput(event) {
-    this.verifyPassword = event.target.value;
-  }
-
-  emailInput(event) {
-    this.email = event.target.value;
-  }
-
   // User type toggle event click
   toggleClicked(event) {
     this.type = event;
@@ -76,9 +61,12 @@ export class RegisterComponent implements OnInit {
       type: this.type
     }
     this.httpClient.post('/register', account).subscribe((data) => {
-      console.log(data);
       if (data.message == "success") {
-        this.router.navigate(['detail-view']);
+        // Save to authServer to keep token
+        this.authService.login({
+          email: this.email,
+          password: this.password
+        });
       }
     })
   }
