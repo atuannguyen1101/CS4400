@@ -14,6 +14,7 @@ import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   imports: [
@@ -32,10 +33,12 @@ import { MatListModule } from '@angular/material/list';
     MatDatepickerModule,
     MatNativeDateModule,
     MatDividerModule,
+    MatCheckboxModule,
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     NgxMaterialTimepickerModule.forRoot()
   ],
   exports: [
+    MatCheckboxModule,
     MatListModule,
     MatDividerModule,
     MatInputModule,

@@ -15,6 +15,22 @@ export class SearchDetailComponent implements OnInit, AfterViewInit {
     {'value': "Yes"},
     {'value': "No"}
   ]
+  search = {
+    "criteria": {
+      "name": true,
+      "size": true,
+      "numOfAnimals": true,
+      "water_feature": true
+    },
+    "data": {
+      "name": "",
+      "numMin": 0,
+      "numMax": 0,
+      "sizeMin": 0,
+      "sizeMax": 0,
+      "water_feature": false
+    }
+  }
   clickedYet : boolean = false;
   searchFieldVal: String = '';
   numMin = 0;
@@ -46,14 +62,15 @@ export class SearchDetailComponent implements OnInit, AfterViewInit {
 
   // Receive event whenever water features selected
   featureSelected(event) {
-    this.waterFeatures = event;
+    this.search.data.water_feature = (event == "Yes") ? true : false;
   }
 
   // Event clicked
   searchClicked() {
     this.clickedYet = true;
+    console.log(this.search);
     
-    this.httpClient.post('/searchExhibit', {}).subscribe(res => {
+    this.httpClient.post('/searchExhibit', this.search).subscribe(res => {
       for (var i = 0; i < res.data.length; i++) {
         res.data[i].water_feature = res.data[i].water_feature ? "Yes" : "No";
       }
@@ -63,12 +80,5 @@ export class SearchDetailComponent implements OnInit, AfterViewInit {
 
   exhibitDetail(data) {
     this.router.navigate(['exibit-detail'], {queryParams : data});
-  }
-
-  // Hide clicked to disappear the search view
-  hideClicked() {
-    if (this.clickedYet) {
-      this.clickedYet = false;
-    }
   }
 }

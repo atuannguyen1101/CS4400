@@ -133,9 +133,21 @@ app.post('/addShow', (req, res) => {
 
 app.post('/searchExhibit', (req, res) => {
 	let response = res;
+	let criteria = req.body.criteria;
+	let data = req.body.data;
+	let name = criteria.name ? data.name : "%";
+	let numMin = criteria.numOfAnimals ? data.numMin : 0;
+	let numMax = criteria.numOfAnimals ? data.numMax : 99999999;
+	let sizeMin = criteria.size ? data.sizeMin : 0;
+	let sizeMax = criteria.size ? data.sizeMax : 99999999;
+	let water_feature = criteria.water_feature ? data.water_feature : " NOT NULL";
+	let searchQuery = `WHERE e.name LIKE "${name}" AND e.size >= ${sizeMin} AND e.size <= ${sizeMax} AND e.water_feature IS ${water_feature} `;
+	console.log(searchQuery);
 	connection.query(`SELECT e.name, e.size, e.water_feature, COUNT(*) numOfAnimals `
-	+ `FROM exhibit e INNER JOIN animal a ON e.name = a.exhibit `
-	+ `GROUP BY e.name`, (err, res, fields) => {
+	+ `FROM exhibit e INNER JOIN animal a ON e.name = a.exhibit ` + searchQuery
+	+ ` GROUP BY e.name HAVING numOfAnimals >= ${numMin} AND numOfAnimals <= ${numMax}`, 
+	(err, res, fields) => {
+		console.log(err);
 		response.send({
 			"message": "success",
 			"data": res

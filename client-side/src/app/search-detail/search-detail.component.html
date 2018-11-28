@@ -9,7 +9,8 @@
         <div class="col-12 col-md-6">
             <mat-form-field appearance="fill" style="width: 100%">
               <mat-label>Name Exhibit</mat-label>
-              <input matInput placeholder="Placeholder" [(ngModel)]="searchFieldVal">
+
+              <input matInput placeholder="Placeholder" [(ngModel)]="search.data.name">
             </mat-form-field>
         </div>
         <!-- <div class="col-12 col-lg-2">
@@ -19,9 +20,9 @@
           <label>Number of Animals</label>
             <div>
               Min
-                <p-spinner size="5" [(ngModel)]="numMin"></p-spinner>
+                <p-spinner size="5" [(ngModel)]="search.data.numMin"></p-spinner>
               Max
-                <p-spinner size="5" [(ngModel)]="numMax"></p-spinner>
+                <p-spinner size="5" [(ngModel)]="search.data.numMax"></p-spinner>
             </div>
         </div>
       </div>
@@ -31,18 +32,25 @@
               <label>Size</label>
               <div>
                 Min
-                  <p-spinner size="5" [(ngModel)]="sizeMin"></p-spinner>
+                  <p-spinner size="5" [(ngModel)]="search.data.sizeMin"></p-spinner>
                 Max
-                  <p-spinner size="5" [(ngModel)]="sizeMax"></p-spinner>
+                  <p-spinner size="5" [(ngModel)]="search.data.sizeMax"></p-spinner>
               </div>
           </div>
           <mat-form-field>
-              <mat-select placeholder="Water Feature" (selectionChange)="featureSelected($event.value)">
+              <mat-select placeholder="Water Feature" (selectionChange)="featureSelected($event.value)" [value]="Yes">
                 <mat-option *ngFor="let item of itemFeatures" [value]=item.value>
                   {{item.value}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
+      </div>
+      <br>
+      <div align="center">
+          <mat-checkbox checked="true" [(ngModel)]="search.criteria.name">Name&nbsp;</mat-checkbox>
+          <mat-checkbox checked="true" [(ngModel)]="search.criteria.size">Size&nbsp;</mat-checkbox>
+          <mat-checkbox checked="true" [(ngModel)]="search.criteria.numOfAnimals">Number of Animals&nbsp;</mat-checkbox>
+          <mat-checkbox checked="true" [(ngModel)]="search.criteria.water_feature">Water feature&nbsp;</mat-checkbox>
       </div>
       <div class="row" align="center">
         <div class="col">
