@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
 import { HttpClientService } from 'src/app/http-client.service';
+import { Router } from '@angular/router';
+
+declare const moment: any;
 
 @Component({
   selector: 'app-search-show',
@@ -8,7 +11,7 @@ import { HttpClientService } from 'src/app/http-client.service';
   styleUrls: ['./search-show.component.css']
 })
 export class SearchShowComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'exhibit', 'date', 'detail'];
+  displayedColumns: string[] = ['name', 'exhibit', 'date'];
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -18,9 +21,9 @@ export class SearchShowComponent implements OnInit {
 
   search = {
     criteria: {
-      name: true,
-      date: true,
-      exhibit: true
+      name: false,
+      date: false,
+      exhibit: false
     },
     data: {
       name: "",
@@ -29,7 +32,8 @@ export class SearchShowComponent implements OnInit {
     }
   }
 
-  constructor(private httpClient: HttpClientService) { }
+  constructor(private httpClient: HttpClientService,
+    private router: Router) { }
 
   ngOnInit() {
     this.httpClient.get('/exhibitList').subscribe(data => {
@@ -48,8 +52,24 @@ export class SearchShowComponent implements OnInit {
   searchClicked() {
     console.log(this.search);
     this.tableDisplay = true;
-    this.httpClient.post('/searchAnimal', this.search).subscribe(res => {
+    this.httpClient.post('/searchShow', this.search).subscribe(res => {
+      for (var i = 0; i < res.data.length; i++) {
+        res.data[i].date = moment(res.data[i].date_time).format('MM/DD/YYYY [at] hh:mmA');
+      }
       this.dataSource = new MatTableDataSource<any>(res.data);
     });
+  }
+  exhibitDetail(data) {
+    this.httpClient.post('/searchExhibit', {
+      criteria: {
+        name: true,
+      },
+      data: {
+        name: data.exhibit
+      }
+    }).subscribe(res => {
+      res.data[0].water_feature = res.data[0].water_feature ? "Yes" : "No";
+      this.router.navigate(['exibit-detail'], {queryParams : res.data[0]});
+    })
   }
 }

@@ -176,6 +176,36 @@ app.post('/searchAnimal', (req, res) => {
 	})
 })
 
+app.post('/searchShow', (req, res) => {
+	let response = res;
+	let criteria = req.body.criteria;
+	let data = req.body.data;
+	let date = new Date(data.date);
+	date.setTime(date.getTime() - 60000 * date.getTimezoneOffset());
+	let start = date;
+	let end = new Date(date);
+	end.setDate(end.getDate() + 1);
+
+	let name = criteria.name ? data.name : "%";
+	let exhibit = criteria.exhibit ? data.exhibit : "%";
+	let dateQuery = "";
+	if (criteria.date) {
+		start = start.toISOString();
+		end = end.toISOString();
+		dateQuery = ` date_time < "${end}" AND date_time >= "${start}"`;
+	} else {
+		dateQuery = ` date_time IS NOT NULL`;
+	}
+
+	connection.query(`SELECT * FROM shows WHERE name LIKE "${name}" AND exhibit LIKE "${exhibit}" AND` + dateQuery, (err, res, fields) => {
+		console.log(err, res);
+		response.send({
+			message: "success",
+			data: res
+		})
+	})
+})
+
 app.post('/animalByExhibit', (req, res) => {
 	let exhibit = req.body;
 	let response = res;

@@ -18,11 +18,11 @@ export class SearchAnimalComponent implements OnInit {
 
   search = {
     criteria: {
-      name: true,
-      exhibit: true,
-      species: true,
-      age: true,
-      type: true
+      name: false,
+      exhibit: false,
+      species: false,
+      age: false,
+      type: false
     },
     data: {
       name: "",

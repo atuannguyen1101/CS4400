@@ -17,10 +17,10 @@ export class SearchDetailComponent implements OnInit, AfterViewInit {
   ]
   search = {
     "criteria": {
-      "name": true,
-      "size": true,
-      "numOfAnimals": true,
-      "water_feature": true
+      "name": false,
+      "size": false,
+      "numOfAnimals": false,
+      "water_feature": false
     },
     "data": {
       "name": "",

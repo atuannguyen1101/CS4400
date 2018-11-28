@@ -1,7 +1,7 @@
 .test {
-  max-width: 600px;
+  max-width: 900px;
   margin: auto;
-  width: 600px;
+  width: 900px;
   padding: 10px;
   margin-top: 10%;
   background-color: #fff3e6
@@ -40,4 +40,14 @@ td, th {
 .numMin {
   max-width: 40px;
   margin-right: 20px
+}
+
+.detail {
+  text-decoration: underline;
+  color: #1a0dab;
+}
+
+.detail:hover {
+  color: #4CAF50;
+  cursor: pointer;
 }

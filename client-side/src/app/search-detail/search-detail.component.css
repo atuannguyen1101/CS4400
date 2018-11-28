@@ -4,6 +4,7 @@
     width: 600px;
     padding: 10px;
     margin-top: 10%;
+    background-color: #fff3e6
 }
 
 .group{
@@ -24,4 +25,7 @@ table {
 .detail:hover {
     color: #4CAF50;
     cursor: pointer;
+}
+.header {
+  font-size: 20px;
 }
