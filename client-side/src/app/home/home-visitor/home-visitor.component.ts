@@ -27,8 +27,27 @@ export class HomeVisitorComponent implements OnInit {
 
   direct(event) {
     let command = event.target.innerText;
-    if (command == "Log out") {
-      this.router.navigate(["login"]);
+    switch(command) {
+      case 'Search Exhibit':
+        this.router.navigate(['search-exhibit']);
+        break;
+      case 'Search Show':
+        this.router.navigate([]);
+        break;
+      case 'Search For Animal':
+        this.router.navigate([]);
+        break;
+      case 'View exibit history':
+        this.router.navigate(['exhibit-history']);
+        break;
+      case 'View show history':
+        this.router.navigate(['show-history']);
+        break;
+      case 'Log out':
+        this.router.navigate(['login']);
+        break;
+      default:
+        break;
     }
   }
 }

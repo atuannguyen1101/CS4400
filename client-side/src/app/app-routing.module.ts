@@ -31,22 +31,27 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'home-view', component: HomeComponent },
     { path: 'forgotpassword', component: ForgotpassComponent },
-    { path: 'detail-view', component: DetailViewComponent },
-    { path: 'search-detail', component: SearchDetailComponent },
-    { path: 'show-view', component: ShowViewComponent },
-    { path: 'history-view', component: HistoryViewComponent },
-    { path: 'add-detail', component: AddDetailComponent },
     { path: 'home-visitor', component: HomeVisitorComponent},
     { path: 'home-staff', component: HomeStaffComponent},
     { path: 'home-admin', component: HomeAdminComponent},
-    { path: 'animal-detail-add', component: AnimalDetailComponent},
-    { path: 'animal-detail', component: AnimalDetailViewComponent},
-    { path: 'exibit-detail', component: ExhibitDetailViewComponent},
-    { path: 'add-show', component: ShowAddDetailComponent},
+
+    // Visitor Button
     { path: 'exhibit-history', component: ExhibitHistoryComponent},
     { path: 'show-history', component: ShowHistoryComponent},
+    { path: 'search-exhibit', component: SearchDetailComponent },
+
+    // Admin Button
     { path: 'admin-view-staff', component: ViewStaffComponent},
-    { path: 'admin-view-visitors', component: ViewVisitorsComponent}
+    { path: 'admin-view-visitors', component: ViewVisitorsComponent},
+    { path: 'animal-detail-add', component: AnimalDetailComponent},
+    { path: 'add-show', component: ShowAddDetailComponent},
+
+    // Staff Button
+    { path: 'show-view-staff', component: ShowViewComponent },
+
+    { path: 'animal-detail', component: AnimalDetailViewComponent},
+    { path: 'detail-view', component: DetailViewComponent },
+    { path: 'exibit-detail', component: ExhibitDetailViewComponent}
 
 ];
 

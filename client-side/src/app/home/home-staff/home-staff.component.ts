@@ -17,7 +17,10 @@ export class HomeStaffComponent implements OnInit {
     let command = event.target.innerText;
     if (command == "Log out") {
       this.router.navigate(["login"]);
+    } else if (command == "Search Animals") {
+      this.router.navigate([])
+    } else if (command == "View Shows") {
+      this.router.navigate(['show-view'])
     }
   }
-
 }

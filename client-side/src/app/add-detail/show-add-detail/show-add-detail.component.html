@@ -37,7 +37,8 @@
                             </mat-form-field>
                         </div>
 
-                        <button mat-button class="button" (click)="submit()">Add Show</button>
+                        <button mat-button class="button" (click)="submit()"
+                        [disabled]="!form.valid">Add Show</button>
                     </div>
 
                     <div class="col-sm">
