@@ -1,3 +1,5 @@
+import { SearchShowComponent } from './search-detail/search-show/search-show.component';
+import { SearchAnimalComponent } from './search-detail/search-animal/search-animal.component';
 import { AnimalCareComponent } from './animal-care/animal-care.component';
 import { ViewVisitorsComponent } from './detail-view/view-visitors/view-visitors.component';
 import { navTopComponent } from './main/navTop/navTop.component';
@@ -53,7 +55,12 @@ const routes: Routes = [
     { path: 'animal-detail', component: AnimalDetailViewComponent},
     { path: 'detail-view', component: DetailViewComponent },
     { path: 'exibit-detail', component: ExhibitDetailViewComponent},
-    { path: 'animal-care', component: AnimalCareComponent}
+    { path: 'animal-care', component: AnimalCareComponent},
+
+
+    { path: 'search-animal', component: SearchAnimalComponent},
+    { path: 'search-show', component: SearchShowComponent}
+
 
 ];
 
@@ -66,6 +73,6 @@ export class AppRoutingModule { }
 export const RoutingComponents = [
     LoginComponent, RegisterComponent, ForgotpassComponent,
     MainComponent, HomeComponent, DetailViewComponent, SearchDetailComponent, ShowViewComponent,HistoryViewComponent, AddDetailComponent, HomeAdminComponent, HomeVisitorComponent,HomeStaffComponent, AnimalDetailComponent, AnimalDetailViewComponent,ExhibitDetailViewComponent, ShowAddDetailComponent,
-    navTopComponent, ExhibitHistoryComponent, ShowHistoryComponent, ViewStaffComponent, ViewVisitorsComponent, AnimalCareComponent
+    navTopComponent, ExhibitHistoryComponent, ShowHistoryComponent, ViewStaffComponent, ViewVisitorsComponent, AnimalCareComponent, SearchAnimalComponent, SearchShowComponent
 ];
 
