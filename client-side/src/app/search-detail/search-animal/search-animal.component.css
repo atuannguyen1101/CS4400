@@ -1,0 +1,48 @@
+.test {
+  max-width: 600px;
+  margin: auto;
+  width: 600px;
+  padding: 10px;
+  margin-top: 10%;
+  background-color: #fff3e6
+}
+.header {
+  font-size: 20px;
+}
+
+.row {
+  padding: 15px
+}
+
+.col-sm {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.button {
+  align-content: center;
+  background-color: #ffffe6;
+  width: 100px;
+}
+.buttonLayout {
+  align-self: center;
+  /* padding-left: 40% */
+}
+.table {
+  width: 100%;
+}
+td, th {
+  width: 25%;
+}
+.numMax {
+  max-width: 40px
+}
+.numMin {
+  max-width: 40px;
+  margin-right: 20px
+}
+.age {
+  margin-top: 18px;
+  margin-left: 20px
+}
+
