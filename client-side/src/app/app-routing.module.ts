@@ -28,6 +28,9 @@ import { AuthGuard } from './_guards/auth.guard';
 import { ExhibitHistoryComponent } from './history-view/exhibit-history/exhibit-history.component';
 import { ShowHistoryComponent } from './history-view/show-history/show-history.component';
 import { ViewStaffComponent } from './detail-view/view-staff/view-staff.component';
+import { NavStaffComponent } from './tabs-navigation/nav-staff/nav-staff.component';
+import { NavAdminComponent } from './tabs-navigation/nav-admin/nav-admin.component';
+import { NavVisitorComponent } from './tabs-navigation/nav-visitor/nav-visitor.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [ AuthGuard ] },
@@ -64,7 +67,13 @@ const routes: Routes = [
 
     // New
     { path: 'search-animal', component: SearchAnimalComponent},
-    { path: 'search-show', component: SearchShowComponent}
+    { path: 'search-show', component: SearchShowComponent},
+
+    //Temp
+    { path: 'add-detail', component: AddDetailComponent},
+    { path: 'staff-nav', component: NavStaffComponent},
+    { path: 'admin-nav', component: NavAdminComponent},
+    { path: 'visitor-nav', component: NavVisitorComponent}
 
 
 ];
@@ -79,6 +88,6 @@ export const RoutingComponents = [
     LoginComponent, RegisterComponent, ForgotpassComponent,
     MainComponent, HomeComponent, DetailViewComponent, SearchDetailComponent, ShowViewComponent,HistoryViewComponent, AddDetailComponent, HomeAdminComponent, HomeVisitorComponent,HomeStaffComponent, AnimalDetailComponent, AnimalDetailViewComponent,ExhibitDetailViewComponent, ShowAddDetailComponent,
     navTopComponent, ExhibitHistoryComponent, ShowHistoryComponent, ViewStaffComponent, ViewVisitorsComponent, AnimalCareComponent, SearchAnimalComponent, SearchShowComponent,
-    ViewAnimalsAdminComponent, ViewShowAdminComponent
+    ViewAnimalsAdminComponent, ViewShowAdminComponent, AddDetailComponent, NavStaffComponent, NavAdminComponent, NavVisitorComponent
 ];
 
