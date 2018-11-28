@@ -42,15 +42,14 @@ export class SearchAnimalComponent implements OnInit {
   ngOnInit() {
     this.httpClient.get('/exhibitList').subscribe(data => {
       this.exhibitList = data.data;
-    })
+    });
   }
 
   searchClicked() {
     this.tableDisplay = true;
     this.httpClient.post('/searchAnimal', this.search).subscribe(res => {
-      console.log(res);
       this.dataSource = new MatTableDataSource<any>(res.data);
-    })
+    });
   }
 
   animalDetail(data) { 

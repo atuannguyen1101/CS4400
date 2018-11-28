@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
+import { HttpClientService } from 'src/app/http-client.service';
 
 @Component({
   selector: 'app-search-show',
@@ -7,16 +8,33 @@ import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
   styleUrls: ['./search-show.component.css']
 })
 export class SearchShowComponent implements OnInit {
-  displayedColumns: string[] = ['time', 'name', 'visit'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  displayedColumns: string[] = ['name', 'exhibit', 'date', 'detail'];
+  dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() { }
+  exhibitList: string[];
+  tableDisplay = false;
+
+  search = {
+    criteria: {
+      name: true,
+      date: true,
+      exhibit: true
+    },
+    data: {
+      name: "",
+      exhibit: "",
+      date: Date
+    }
+  }
+
+  constructor(private httpClient: HttpClientService) { }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.httpClient.get('/exhibitList').subscribe(data => {
+      this.exhibitList = data.data;
+    })
   }
 
   applyFilter(filterValue: string) {
@@ -26,21 +44,12 @@ export class SearchShowComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-}
 
-  export interface PeriodicElement {
-    name: string;
-    time: number;
-    visit: number;
-
+  searchClicked() {
+    console.log(this.search);
+    this.tableDisplay = true;
+    this.httpClient.post('/searchAnimal', this.search).subscribe(res => {
+      this.dataSource = new MatTableDataSource<any>(res.data);
+    });
   }
-
-  const ELEMENT_DATA: PeriodicElement[] = [
-    {time: 1, name: 'Hydrogen',  visit: 5},
-    {time: 2, name: 'Helium',  visit: 5},
-    {time: 3, name: 'Lithium', visit: 5},
-    {time: 4, name: 'Beryllium', visit: 5},
-    {time: 5, name: 'Beryllium2', visit: 5},
-    {time: 6, name: 'Beryllium3', visit: 5},
-    {time: 7, name: 'Beryllium4', visit: 5},
-  ];
+}
