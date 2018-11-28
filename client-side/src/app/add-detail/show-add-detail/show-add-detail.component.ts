@@ -40,18 +40,16 @@ export class ShowAddDetailComponent implements OnInit {
   }
 
   submit() {
-    let hour = parseInt(this.time.substr(0, 2)) - 5;
+    let newDate = new Date(this.date);
+    let hour = parseInt(this.time.substr(0, 2));
     let minute = parseInt(this.time.substr(3, 2));
-    this.date.setHours(hour, minute)
-    // if (hour < 0) {
-    //   this.date.setDate(this.date.getDate() + 1);
-    // }
-    // console.log(this.date);
+    newDate.setHours(hour, minute);
+    newDate.setTime(newDate.getTime() - newDate.getTimezoneOffset() * 60000);
     let data = {
       name: this.name,
       exhibit: this.exhibit.name,
       staff: this.staff.username,
-      date: this.date
+      date: newDate
     }
     this.httpClient.post('/addShow', data)
     .subscribe((res) => {

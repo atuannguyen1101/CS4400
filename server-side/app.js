@@ -155,7 +155,6 @@ app.post('/searchExhibit', (req, res) => {
 	});
 });
 
-// Need work on Query - not finish yet.
 app.post('/searchAnimal', (req, res) => {
 	let response = res;
 	let criteria = req.body.criteria;
