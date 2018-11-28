@@ -17,6 +17,7 @@ export class RegisterComponent implements OnInit {
   verifyPassword: string = '';
   email: string = '';
   type: string = '';
+  errorMessage: string = '';
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     username: new FormControl('', Validators.required),
@@ -53,6 +54,8 @@ export class RegisterComponent implements OnInit {
           email: this.email,
           password: this.password
         });
+      } else {
+        this.errorMessage = data.message;
       }
     })
   }

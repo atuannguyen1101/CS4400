@@ -48,9 +48,9 @@ export class LoginComponent implements OnInit {
       email: this.email,
       password: this.password
     }
-    this.httpClient.post('/login', user).subscribe((data) => {
-      console.log(data);
-      if (data.message == "success") {
+    this.httpClient.post('/login', user).subscribe((res) => {
+      console.log(res);
+      if (res.message == "success") {
         // this.authService.login(user); // Save to authServer to keep token
         // this.router.navigate(['home-view'])
         this.errorMessage = '';
@@ -58,9 +58,10 @@ export class LoginComponent implements OnInit {
           console.log(data)
         })
 
-        this.router.navigate(['detail-view']);
+        // this.router.navigate(['detail-view']);
+        this.router.navigate([`home-` + res.data.user_type.toLowerCase()]);
       } else {
-        this.errorMessage = data.message;
+        this.errorMessage = res.message;
       }
       console.log(this.errorMessage);
     })

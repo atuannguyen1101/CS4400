@@ -8,15 +8,16 @@
       <div class="row">
         <div class="col-sm">
           <div class="form-group row" *ngFor="let item of titleList">
-              <button mat-button class="button">{{item}}</button>
+              <button mat-button (click)="direct($event)" class="button">{{item}}</button>
           </div>
         </div>
         <div class="col-sm">
           <div class="form-group row" *ngFor="let item2 of titleList2">
-              <button mat-button class="button">{{item2}}</button>
+              <button mat-button (click)="direct($event)" class="button">{{item2}}</button>
           </div>
         </div>
       </div>
     </div>
   </mat-card>
 </div>
+

@@ -7,13 +7,13 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-            <button mat-button class="button">Search Animals</button>
+            <button mat-button (click)=direct($event) class="button">Search Animals</button>
           </div>
           <div class="col-sm">
-            <button mat-button (click)=direct() class="button">View Shows</button>
+            <button mat-button (click)=direct($event) class="button">View Shows</button>
           </div>
           <div class="col-sm">
-            <button mat-button (click)=direct() class="button">Log out</button>
+            <button mat-button (click)=direct($event) class="button">Log out</button>
           </div>
         </div>
     </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-admin',
@@ -7,21 +8,50 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeAdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
   titleList: String[] = [
-    'View Visitors',
-    'View Show',
-    'Add Show'
-  ];
-
-  titleList2: String[] = [
     'View Staff',
+    'View Show',
     'View Animals',
     'Log out'
   ];
 
+  titleList2: String[] = [
+    'View Visitors',
+    'Add Show',
+    'Add Animals',
+  ];
+
+  direct(event) {
+    let command = event.target.innerText;
+    switch(command) {
+      case 'View Visitors':
+        this.router.navigate(['admin-view-visitor']);
+        break;
+      case 'View Show':
+        this.router.navigate(['show-view']);
+        break;
+      case 'Add Show':
+        this.router.navigate(['add-show']);
+        break;
+      case 'View Staff':
+        this.router.navigate(['admin-view-staff']);
+        break;
+      case 'View Animals':
+        this.router.navigate(['animal-detail']);
+        break;
+      case 'Log out':
+        this.router.navigate(['login']);
+        break;
+      case 'Add Animals':
+        this.router.navigate(['animal-detail-add']);
+        break;
+      default:
+        break;
+    }
+  }
 }
