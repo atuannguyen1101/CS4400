@@ -34,3 +34,14 @@
 td, th {
   width: 25%;
 }
+
+.detail {
+  text-align: center;
+  text-decoration: underline;
+  color: #1a0dab;
+}
+
+.detail:hover {
+  color: #4CAF50;
+  cursor: pointer;
+}

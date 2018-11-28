@@ -1,48 +1,45 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClientService } from 'src/app/http-client.service';
 
 @Component({
   selector: 'app-exhibit-detail-view',
   templateUrl: './exhibit-detail-view.component.html',
   styleUrls: ['./exhibit-detail-view.component.css']
 })
+
+
 export class ExhibitDetailViewComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'species'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  displayedColumns: string[] = ['name', 'species', 'detail'];
+  dataSource: any = [];
+  exhibit: any = {};
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute,
+    private httpClient: HttpClientService,
+    private router: Router) { }
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.route.queryParams.subscribe(data => {
+      // console.log(data);
+      // console.log(data['name'])
+      this.exhibit.name = data['name'];
+      this.exhibit.size = data['size'];
+      this.exhibit.numOfAnimals = data['numOfAnimals']
+      this.exhibit.water_feature = data['water_feature'];
+      this.httpClient.post('/animalByExhibit', this.exhibit).subscribe(res => {
+        this.dataSource = new MatTableDataSource<any>(res.data);
+      })
+    })
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+  animalDetail(data) { 
+    this.router.navigate(['animal-detail'], {queryParams : data});
   }
 }
-
-  export interface PeriodicElement {
-    name: string;
-    position: number;
-    species: string;
-
-  }
-
-  const ELEMENT_DATA: PeriodicElement[] = [
-    {position: 1, name: 'Hydrogen',  species: 'H'},
-    {position: 2, name: 'Helium',  species: 'He'},
-    {position: 3, name: 'Lithium', species: 'Li'},
-    {position: 4, name: 'Beryllium', species: 'Be'},
-    {position: 5, name: 'Beryllium2', species: 'Be'},
-    {position: 6, name: 'Beryllium3', species: 'Be'},
-    {position: 7, name: 'Beryllium4', species: 'Be'},
-  ];
 
 
