@@ -32,10 +32,10 @@ export class HomeVisitorComponent implements OnInit {
         this.router.navigate(['search-exhibit']);
         break;
       case 'Search Show':
-        this.router.navigate([]);
+        this.router.navigate(['search-show']);
         break;
       case 'Search For Animal':
-        this.router.navigate([]);
+        this.router.navigate(['search-animal']);
         break;
       case 'View exibit history':
         this.router.navigate(['exhibit-history']);

@@ -50,6 +50,7 @@ const routes: Routes = [
     { path: 'admin-view-visitors', component: ViewVisitorsComponent},
     { path: 'animal-detail-add', component: AnimalDetailComponent},
     { path: 'add-show', component: ShowAddDetailComponent},
+    // New
     { path: 'view-shows-admin', component: ViewAnimalsAdminComponent},
     { path: 'view-animal-admin', component: ViewAnimalsAdminComponent},
 
@@ -61,7 +62,7 @@ const routes: Routes = [
     { path: 'exibit-detail', component: ExhibitDetailViewComponent},
     { path: 'animal-care', component: AnimalCareComponent},
 
-
+    // New
     { path: 'search-animal', component: SearchAnimalComponent},
     { path: 'search-show', component: SearchShowComponent}
 

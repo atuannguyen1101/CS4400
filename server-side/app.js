@@ -151,7 +151,29 @@ app.post('/searchExhibit', (req, res) => {
 		response.send({
 			"message": "success",
 			"data": res
-		})
+		});
+	});
+});
+
+// Need work on Query - not finish yet.
+app.post('/searchAnimal', (req, res) => {
+	let response = res;
+	let criteria = req.body.criteria;
+	let data = req.body.data;
+	let name = criteria.name ? data.name : "%";
+	let exhibit = criteria.exhibit ? data.exhibit : "%";
+	let species = criteria.species ? data.species : "%";
+	let type = criteria.type ? data.type : "%";
+	let ageMin = criteria.age ? data.ageMin : 0;
+	let ageMax = criteria.age ? data.ageMax : 99999999;
+	let searchQuery = ` WHERE name LIKE "${name}" AND exhibit LIKE "${exhibit}"`
+		+ `AND species LIKE "${species}" AND type LIKE "${type}" AND age <= ${ageMax} AND age >= ${ageMin}`;
+	connection.query(`SELECT * FROM animal` + searchQuery, (err, res, fields) => {
+		console.log(err, res)
+		response.send({
+			message: "success",
+			data: res
+		});
 	})
 })
 

@@ -32,12 +32,6 @@ export class SearchDetailComponent implements OnInit, AfterViewInit {
     }
   }
   clickedYet : boolean = false;
-  searchFieldVal: String = '';
-  numMin = 0;
-  numMax = 1;
-  sizeMin = 0;
-  sizeMax = 100;
-  waterFeatures: String = '';
 
   // Table view List
   displayedColumns: string[] = ['name', 'size', 'numOfAnimals', 'water', 'detail'];
