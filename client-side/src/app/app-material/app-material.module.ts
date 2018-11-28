@@ -12,9 +12,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   imports: [
+    MatListModule,
     CommonModule,
     MatInputModule,
     MatButtonModule,
@@ -28,10 +31,13 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatTableModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatDividerModule,
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     NgxMaterialTimepickerModule.forRoot()
   ],
   exports: [
+    MatListModule,
+    MatDividerModule,
     MatInputModule,
     MatButtonModule,
     MatCardModule,

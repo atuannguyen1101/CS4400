@@ -131,6 +131,30 @@ app.post('/addShow', (req, res) => {
 		});
 });
 
+app.post('/searchExhibit', (req, res) => {
+	let response = res;
+	connection.query(`SELECT e.name, e.size, e.water_feature, COUNT(*) numOfAnimals `
+	+ `FROM exhibit e INNER JOIN animal a ON e.name = a.exhibit `
+	+ `GROUP BY e.name`, (err, res, fields) => {
+		response.send({
+			"message": "success",
+			"data": res
+		})
+	})
+})
+
+app.post('/animalByExhibit', (req, res) => {
+	let exhibit = req.body;
+	let response = res;
+	connection.query(`SELECT * FROM animal WHERE exhibit="${exhibit.name}"`,
+	(err, res, fields) => {
+		response.send({
+			"messsage": "success",
+			"data": res
+		})
+	})
+});
+
 app.get('/api/data', (req, res) => {
 	console.log(req.session.user)
 	res.json(req.session)
