@@ -5,6 +5,7 @@ import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '
 import { ErrorStateMatcher } from '@angular/material/core';
 import { HttpClientService } from '../../http-client.service';
 import { MatButtonModule } from '@angular/material/button';
+import { Observable } from 'rxjs';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 // export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -29,18 +30,11 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required])
   });
 
+
   constructor(private router: Router, private httpClient: HttpClientService, private authService: AuthService) { }
 
   ngOnInit() {
   }
-
-  // // Handle for invalid email
-  // emailFormControl = new FormControl('', [
-  //   Validators.required,
-  //   Validators.email,
-  // ]);
-
-  // matcher = new MyErrorStateMatcher();
 
   // Login clicked
   login() {
@@ -56,16 +50,16 @@ export class LoginComponent implements OnInit {
         this.errorMessage = '';
         this.httpClient.get('/api/data').subscribe((data) => {
           console.log(data)
-        })
+        });
+        localStorage.setItem("user_type", res.data.user_type);
+        localStorage.setItem("username", res.data.username);
 
-        // this.router.navigate(['detail-view']);
         this.router.navigate([`home-` + res.data.user_type.toLowerCase()]);
       } else {
         this.errorMessage = res.message;
       }
       console.log(this.errorMessage);
     })
-    // this.router.navigate([''])
   }
 
   // Forgot Password clicked route to forgotPassword file

@@ -11,7 +11,7 @@ declare const moment: any;
   styleUrls: ['./search-show.component.css']
 })
 export class SearchShowComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'exhibit', 'date'];
+  displayedColumns: string[] = ['name', 'exhibit', 'date', 'check'];
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -54,7 +54,8 @@ export class SearchShowComponent implements OnInit {
     this.tableDisplay = true;
     this.httpClient.post('/searchShow', this.search).subscribe(res => {
       for (var i = 0; i < res.data.length; i++) {
-        res.data[i].date = moment(res.data[i].date_time).format('MM/DD/YYYY [at] hh:mmA');
+        res.data[i].date = moment(res.data[i].date_time).format('MM/DD/YYYY [at] hh:mm A');
+        res.data[i].logged = false;
       }
       this.dataSource = new MatTableDataSource<any>(res.data);
     });

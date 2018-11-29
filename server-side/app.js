@@ -73,6 +73,7 @@ app.post('/login', (req, res) => {
 		} else {
 			if (res && res.length != 0) {
 				delete res[0]["password"];
+				console.log(res[0]);
 				response.send({
 					"message": "success",
 					"data": res[0]
@@ -160,7 +161,7 @@ app.post('/searchAnimal', (req, res) => {
 	let criteria = req.body.criteria;
 	let data = req.body.data;
 	let name = criteria.name ? data.name : "%";
-	let exhibit = criteria.exhibit ? data.exhibit : "%";
+	let exhibit = criteria.exhibit ? data.exhibit.name : "%";
 	let species = criteria.species ? data.species : "%";
 	let type = criteria.type ? data.type : "%";
 	let ageMin = criteria.age ? data.ageMin : 0;
@@ -168,7 +169,7 @@ app.post('/searchAnimal', (req, res) => {
 	let searchQuery = ` WHERE name LIKE "${name}" AND exhibit LIKE "${exhibit}"`
 		+ `AND species LIKE "${species}" AND type LIKE "${type}" AND age <= ${ageMax} AND age >= ${ageMin}`;
 	connection.query(`SELECT * FROM animal` + searchQuery, (err, res, fields) => {
-		console.log(err, res)
+		// console.log(err, res)
 		response.send({
 			message: "success",
 			data: res
@@ -188,6 +189,7 @@ app.post('/searchShow', (req, res) => {
 
 	let name = criteria.name ? data.name : "%";
 	let exhibit = criteria.exhibit ? data.exhibit : "%";
+	let host = criteria.host ? data.host : "%";
 	let dateQuery = "";
 	if (criteria.date) {
 		start = start.toISOString();
@@ -197,8 +199,8 @@ app.post('/searchShow', (req, res) => {
 		dateQuery = ` date_time IS NOT NULL`;
 	}
 
-	connection.query(`SELECT * FROM shows WHERE name LIKE "${name}" AND exhibit LIKE "${exhibit}" AND` + dateQuery, (err, res, fields) => {
-		console.log(err, res);
+	connection.query(`SELECT * FROM shows WHERE name LIKE "${name}" AND exhibit LIKE "${exhibit}" AND host LIKE "${host}" AND` + dateQuery, (err, res, fields) => {
+		// console.log(err, res);
 		response.send({
 			message: "success",
 			data: res

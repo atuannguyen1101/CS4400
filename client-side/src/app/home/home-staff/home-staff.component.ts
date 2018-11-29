@@ -20,7 +20,7 @@ export class HomeStaffComponent implements OnInit {
     } else if (command == "Search Animals") {
       this.router.navigate([])
     } else if (command == "View Shows") {
-      this.router.navigate(['show-view'])
+      this.router.navigate(['show-view-staff'])
     }
   }
 }

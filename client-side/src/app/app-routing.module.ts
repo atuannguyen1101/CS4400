@@ -59,7 +59,6 @@ const routes: Routes = [
 
     // Staff Button
     { path: 'show-view-staff', component: ShowViewComponent },
-
     { path: 'animal-detail', component: AnimalDetailViewComponent},
     { path: 'detail-view', component: DetailViewComponent },
     { path: 'exibit-detail', component: ExhibitDetailViewComponent},
