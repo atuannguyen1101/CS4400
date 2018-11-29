@@ -169,6 +169,23 @@ app.post('/animalNote', (req, res) => {
 	}) 
 })
 
+app.post('/logVisit', (req, res) => {
+	let response = res;
+	let body = req.body;
+	connection.query(`INSERT INTO visit_exhibit VALUES`
+	+ ` ("${body.exhibit}", "${body.date}", "${body.visitor}")`, (err, res, fields) => {
+		if (err) {
+			response.send({
+				message: "fail"
+			});
+		} else {
+			response.send({
+				message: "success"
+			});
+		}
+	});
+});
+
 app.post('/searchExhibit', (req, res) => {
 	let response = res;
 	let criteria = req.body.criteria;
