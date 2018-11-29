@@ -15,6 +15,7 @@ export class SearchAnimalComponent implements OnInit {
   exhibitList: string[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  userLink: string;
 
   search = {
     criteria: {
@@ -43,6 +44,11 @@ export class SearchAnimalComponent implements OnInit {
     this.httpClient.get('/exhibitList').subscribe(data => {
       this.exhibitList = data.data;
     });
+    if (localStorage.getItem('user_type') == 'Visitor') {
+      this.userLink = "Detail";
+    } else if (localStorage.getItem('user_type') == 'Staff') {
+      this.userLink = "Note";
+    }
   }
 
   searchClicked() {

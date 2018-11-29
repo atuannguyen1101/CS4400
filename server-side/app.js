@@ -132,6 +132,43 @@ app.post('/addShow', (req, res) => {
 		});
 });
 
+app.post('/addNote', (req, res) => {
+	let response = res;
+	let a = req.body;
+	connection.query(`INSERT INTO animal_care VALUES` 
+	+ `("${a.name}", "${a.species}", "${a.staff}", "${a.date}", "${a.note}")`, 
+	(err, res, fields) => {
+		if (err) {
+			response.send({
+				message: "fail"
+			})
+		} else {
+			response.send({
+				message: "success"
+			})
+		}
+	});
+})
+
+app.post('/animalNote', (req, res) => {
+	let response = res;
+	let a = req.body;
+	connection.query(`SELECT staff_member, text_care, date_time FROM animal_care ` 
+	+ `WHERE animal = "${a.name}" AND species = "${a.species}"`, (err, res, fields) => {
+		if (err) {
+			response.send({
+				message: "fail"
+			});
+		} else {
+			// console.log(res)
+			response.send({
+				message: "success",
+				data: res
+			})
+		}
+	}) 
+})
+
 app.post('/searchExhibit', (req, res) => {
 	let response = res;
 	let criteria = req.body.criteria;

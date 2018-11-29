@@ -2,49 +2,47 @@
 
 <div class="test">
 <mat-card>
-    <div *ngIf="user_type == 'Visitor'">
-        <mat-card-header class="header">Search Show</mat-card-header>
-        <div class="container">
-            <div class="row">
+    <mat-card-header class="header">Search Show</mat-card-header>
+    <div class="container">
+        <div class="row">
+        <div class="col-sm">
+            <div>
+                <mat-form-field class="nameInput">
+                <input matInput placeholder="Name" [(ngModel)]="search.data.name">
+                </mat-form-field>
+            </div>
+            </div>
+
             <div class="col-sm">
                 <div>
-                    <mat-form-field class="nameInput">
-                    <input matInput placeholder="Name" [(ngModel)]="search.data.name">
-                    </mat-form-field>
-                </div>
-                </div>
-
-                <div class="col-sm">
-                    <div>
-                        <mat-form-field>
-                        <mat-select placeholder="Exhibit" [(ngModel)]="search.data.exhibit">
-                            <mat-option *ngFor="let exhibit of exhibitList" [value]="exhibit.name">
-                            {{exhibit.name}}
-                            </mat-option>
-                        </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm">
                     <mat-form-field>
-                        <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="search.data.date">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
+                    <mat-select placeholder="Exhibit" [(ngModel)]="search.data.exhibit">
+                        <mat-option *ngFor="let exhibit of exhibitList" [value]="exhibit.name">
+                        {{exhibit.name}}
+                        </mat-option>
+                    </mat-select>
                     </mat-form-field>
                 </div>
             </div>
-
-            <div align="center">
-                <mat-checkbox [(ngModel)]="search.criteria.name">Name&nbsp;&nbsp;</mat-checkbox>
-                <mat-checkbox [(ngModel)]="search.criteria.exhibit">Exhibit&nbsp;&nbsp;</mat-checkbox>
-                <mat-checkbox [(ngModel)]="search.criteria.date">Date&nbsp;&nbsp;</mat-checkbox>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="search.data.date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
             </div>
-            <div class="row" align="center">
-                <div class="col">
-                    <button (click)="searchClicked()" mat-fab color="accent">Search</button>
-                </div>
+        </div>
+
+        <div align="center">
+            <mat-checkbox [(ngModel)]="search.criteria.name">Name&nbsp;&nbsp;</mat-checkbox>
+            <mat-checkbox [(ngModel)]="search.criteria.exhibit">Exhibit&nbsp;&nbsp;</mat-checkbox>
+            <mat-checkbox [(ngModel)]="search.criteria.date">Date&nbsp;&nbsp;</mat-checkbox>
+        </div>
+        <div class="row" align="center">
+            <div class="col">
+                <button (click)="searchClicked()" mat-fab color="accent">Search</button>
             </div>
         </div>
     </div>
