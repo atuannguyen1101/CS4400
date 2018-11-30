@@ -54,12 +54,22 @@ export class SearchShowComponent implements OnInit {
     this.tableDisplay = true;
     this.httpClient.post('/searchShow', this.search).subscribe(res => {
       for (var i = 0; i < res.data.length; i++) {
+        let current = new Date();
+        current.setTime(current.getTime() - current.getTimezoneOffset() * 60000);
+        res.data[i].validLogVisit = current <= new Date(res.data[i].date_time);
         res.data[i].date = moment(res.data[i].date_time).format('MM/DD/YYYY [at] hh:mm A');
         res.data[i].logged = false;
       }
+      console.log(res.data);
       this.dataSource = new MatTableDataSource<any>(res.data);
     });
   }
+
+  logVisit(e) {
+    e.username = localStorage.getItem('username');
+    this.httpClient.post('/logVisitShow', {data: e}).subscribe();
+  }
+  
   exhibitDetail(data) {
     this.httpClient.post('/searchExhibit', {
       criteria: {

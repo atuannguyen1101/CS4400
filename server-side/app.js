@@ -10,8 +10,9 @@ app.use(session({
 	secret: 'vfsddasdas1234444444242423423asdasdadadada',
 	saveUninitialized: false,
 	resave: false
-}))
+}));
 
+let timeDifference = 60000 * (new Date).getTimezoneOffset();
 
 const connection = require('./db_Connection.js')
 app.use(bodyParser.json());
@@ -73,7 +74,7 @@ app.post('/login', (req, res) => {
 		} else {
 			if (res && res.length != 0) {
 				delete res[0]["password"];
-				console.log(res[0]);
+				// console.log(res[0]);
 				response.send({
 					"message": "success",
 					"data": res[0]
@@ -92,7 +93,7 @@ app.post('/login', (req, res) => {
 app.post('/addAnimal', (req, res) => {
 	let animal = req.body;
 	let response = res;
-	console.log(animal);
+	// console.log(animal);
 	connection.query(`INSERT INTO animal VALUES` +
 		`("${animal.name}", "${animal.specie}", "${animal.type}", "${animal.age}", "${animal.exhibit}")`,
 		(err, res, fields) => {
@@ -186,6 +187,29 @@ app.post('/logVisit', (req, res) => {
 	});
 });
 
+app.post('/logVisitShow', (req, res) => {
+	let response = res;
+	let visitor = req.body.data.username;
+	let show_name = req.body.data.name;
+	let date = new Date();
+	date.setTime(date.getTime() - timeDifference);
+	date = date.toISOString();
+	connection.query(`INSERT INTO visit_show VALUES (
+		"${show_name}", "${date}", "${visitor}"
+	)`, (err, res, fields) => {
+		console.log(err, res);
+		if (err) {
+			response.send({
+				message: "fail"
+			});
+		} else {
+			response.send({
+				message: "success"
+			});
+		}
+	})
+});
+
 app.post('/searchExhibit', (req, res) => {
 	let response = res;
 	let criteria = req.body.criteria;
@@ -197,16 +221,22 @@ app.post('/searchExhibit', (req, res) => {
 	let sizeMax = criteria.size ? data.sizeMax : 99999999;
 	let water_feature = criteria.water_feature ? data.water_feature : " NOT NULL";
 	let searchQuery = `WHERE e.name LIKE "${name}" AND e.size >= ${sizeMin} AND e.size <= ${sizeMax} AND e.water_feature IS ${water_feature} `;
-	console.log(searchQuery);
+	// console.log(searchQuery);
 	connection.query(`SELECT e.name, e.size, e.water_feature, COUNT(*) numOfAnimals `
 	+ `FROM exhibit e INNER JOIN animal a ON e.name = a.exhibit ` + searchQuery
 	+ ` GROUP BY e.name HAVING numOfAnimals >= ${numMin} AND numOfAnimals <= ${numMax}`, 
 	(err, res, fields) => {
-		console.log(err);
-		response.send({
-			"message": "success",
-			"data": res
-		});
+		// console.log(err);
+		if (err) {
+			response.send({
+				message: "fail"
+			});
+		} else {
+			response.send({
+				message: "success",
+				data: res
+			});
+		}
 	});
 });
 
@@ -236,7 +266,7 @@ app.post('/searchShow', (req, res) => {
 	let criteria = req.body.criteria;
 	let data = req.body.data;
 	let date = new Date(data.date);
-	date.setTime(date.getTime() - 60000 * date.getTimezoneOffset());
+	date.setTime(date.getTime() - timeDifference);
 	let start = date;
 	let end = new Date(date);
 	end.setDate(end.getDate() + 1);
@@ -258,9 +288,52 @@ app.post('/searchShow', (req, res) => {
 		response.send({
 			message: "success",
 			data: res
-		})
-	})
-})
+		});
+	});
+});
+
+app.post('/searchExhibitHistory', (req, res) => {
+	let criteria = req.body.criteria;
+	let data = req.body.data;
+	let response = res;
+	let name = criteria.name ? data.name : "%";
+	let username = criteria.username ? data.username : "%";
+	let numMin = criteria.numOfVisits ? data.numMin : 0;
+	let numMax = criteria.numOfVisits ? data.numMax : 9999999;
+
+	let date = new Date(data.date);
+	date.setTime(date.getTime() - timeDifference);
+	let start = date;
+	let end = new Date(date);
+	end.setDate(end.getDate() + 1);
+	if (criteria.date) {
+		start = start.toISOString();
+		end = end.toISOString();
+		dateQuery = ` a.date_time < "${end}" AND a.date_time >= "${start}"`;
+	} else {
+		dateQuery = ` a.date_time IS NOT NULL`;
+	}
+
+	connection.query(`SELECT a.exhibit, a.date_time, numOfVisits `
+	+ ` FROM visit_exhibit a, (
+		SELECT exhibit, COUNT(*) AS numOfVisits
+		FROM visit_exhibit
+		GROUP BY exhibit
+	) AS b WHERE a.exhibit = b.exhibit AND a.visitor LIKE "${username}" AND a.exhibit LIKE "${name}" AND` + dateQuery
+	+ ` HAVING numOfVisits >= ${numMin} AND numOfVisits <= ${numMax}`,
+	(err, res, fields) => {
+		if (err) {
+			response.send({
+				message: "fail"
+			});
+		} else {
+			response.send({
+				message: "success",
+				data: res
+			});
+		}
+	});
+});
 
 app.post('/animalByExhibit', (req, res) => {
 	let exhibit = req.body;
