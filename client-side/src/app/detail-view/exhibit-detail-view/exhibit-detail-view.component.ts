@@ -37,6 +37,18 @@ export class ExhibitDetailViewComponent implements OnInit {
     })
   }
 
+  logVisit() {
+    let date = new Date();
+    date.setTime(date.getTime() - date.getTimezoneOffset() * 60000);
+    this.httpClient.post('/logVisit', {
+      exhibit: this.exhibit.name,
+      date: date,
+      visitor: localStorage.getItem('username')
+    }).subscribe(res => {
+      console.log(res);
+    });
+  }
+
   animalDetail(data) { 
     this.router.navigate(['animal-detail'], {queryParams : data});
   }

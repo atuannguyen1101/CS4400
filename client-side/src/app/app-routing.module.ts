@@ -1,3 +1,7 @@
+import { ViewShowAdminComponent } from './detail-view/view-show-admin/view-show-admin.component';
+import { ViewAnimalsAdminComponent } from './detail-view/view-animals-admin/view-animals-admin.component';
+import { SearchShowComponent } from './search-detail/search-show/search-show.component';
+import { SearchAnimalComponent } from './search-detail/search-animal/search-animal.component';
 import { AnimalCareComponent } from './animal-care/animal-care.component';
 import { ViewVisitorsComponent } from './detail-view/view-visitors/view-visitors.component';
 import { navTopComponent } from './main/navTop/navTop.component';
@@ -24,6 +28,9 @@ import { AuthGuard } from './_guards/auth.guard';
 import { ExhibitHistoryComponent } from './history-view/exhibit-history/exhibit-history.component';
 import { ShowHistoryComponent } from './history-view/show-history/show-history.component';
 import { ViewStaffComponent } from './detail-view/view-staff/view-staff.component';
+import { NavStaffComponent } from './tabs-navigation/nav-staff/nav-staff.component';
+import { NavAdminComponent } from './tabs-navigation/nav-admin/nav-admin.component';
+import { NavVisitorComponent } from './tabs-navigation/nav-visitor/nav-visitor.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [ AuthGuard ] },
@@ -46,14 +53,27 @@ const routes: Routes = [
     { path: 'admin-view-visitors', component: ViewVisitorsComponent},
     { path: 'animal-detail-add', component: AnimalDetailComponent},
     { path: 'add-show', component: ShowAddDetailComponent},
+    // New
+    { path: 'view-shows-admin', component: ViewAnimalsAdminComponent},
+    { path: 'view-animal-admin', component: ViewAnimalsAdminComponent},
 
     // Staff Button
     { path: 'show-view-staff', component: ShowViewComponent },
-
     { path: 'animal-detail', component: AnimalDetailViewComponent},
     { path: 'detail-view', component: DetailViewComponent },
     { path: 'exibit-detail', component: ExhibitDetailViewComponent},
-    { path: 'animal-care', component: AnimalCareComponent}
+    { path: 'animal-care', component: AnimalCareComponent},
+
+    // New
+    { path: 'search-animal', component: SearchAnimalComponent},
+    { path: 'search-show', component: SearchShowComponent},
+
+    //Temp
+    { path: 'add-detail', component: AddDetailComponent},
+    { path: 'staff-nav', component: NavStaffComponent},
+    { path: 'admin-nav', component: NavAdminComponent},
+    { path: 'visitor-nav', component: NavVisitorComponent}
+
 
 ];
 
@@ -66,6 +86,7 @@ export class AppRoutingModule { }
 export const RoutingComponents = [
     LoginComponent, RegisterComponent, ForgotpassComponent,
     MainComponent, HomeComponent, DetailViewComponent, SearchDetailComponent, ShowViewComponent,HistoryViewComponent, AddDetailComponent, HomeAdminComponent, HomeVisitorComponent,HomeStaffComponent, AnimalDetailComponent, AnimalDetailViewComponent,ExhibitDetailViewComponent, ShowAddDetailComponent,
-    navTopComponent, ExhibitHistoryComponent, ShowHistoryComponent, ViewStaffComponent, ViewVisitorsComponent, AnimalCareComponent
+    navTopComponent, ExhibitHistoryComponent, ShowHistoryComponent, ViewStaffComponent, ViewVisitorsComponent, AnimalCareComponent, SearchAnimalComponent, SearchShowComponent,
+    ViewAnimalsAdminComponent, ViewShowAdminComponent, AddDetailComponent, NavStaffComponent, NavAdminComponent, NavVisitorComponent
 ];
 

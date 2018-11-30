@@ -17,10 +17,10 @@ export class SearchDetailComponent implements OnInit, AfterViewInit {
   ]
   search = {
     "criteria": {
-      "name": true,
-      "size": true,
-      "numOfAnimals": true,
-      "water_feature": true
+      "name": false,
+      "size": false,
+      "numOfAnimals": false,
+      "water_feature": false
     },
     "data": {
       "name": "",
@@ -32,12 +32,6 @@ export class SearchDetailComponent implements OnInit, AfterViewInit {
     }
   }
   clickedYet : boolean = false;
-  searchFieldVal: String = '';
-  numMin = 0;
-  numMax = 1;
-  sizeMin = 0;
-  sizeMax = 100;
-  waterFeatures: String = '';
 
   // Table view List
   displayedColumns: string[] = ['name', 'size', 'numOfAnimals', 'water', 'detail'];

@@ -2,7 +2,7 @@
 
 <div class="test">
   <mat-card>
-    <mat-card-header class="header">Show History</mat-card-header>
+    <mat-card-header class="header">View & Search Shows for Admin</mat-card-header>
       <div class="container">
         <div class="row">
           <div class="col-sm">
@@ -80,5 +80,13 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <mat-paginator [length]="5" [pageSize]="3" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+    <div class="row">
+        <div class="buttonLayout">
+            <button mat-button class="button">Remove Show</button>
+        </div>
+    </div>
+
   </mat-card>
 </div>

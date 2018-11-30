@@ -9,7 +9,7 @@
                 <div>
                     <form class="example-form">
                         <mat-form-field class="nameInput">
-                            <input matInput placeholder="Name" required name="name">
+                            <input matInput placeholder="Name" required name="name" [(ngModel)]="search.data.name">
                         </mat-form-field>
                     </form>
                 </div>
@@ -21,7 +21,8 @@
                 <div class="content with-margin">
                     <mat-form-field class="numMin">
                         <input matInput placeholder="Min" type="number"
-                        name="min_field" ng-pattern="/^(0|\-?[1-9][0-9]*)$/" required>
+                        name="min_field" ng-pattern="/^(0|\-?[1-9][0-9]*)$/" required
+                        [(ngModel)]="search.data.numMin">
                         </mat-form-field>
                 </div>
                 </div>
@@ -29,28 +30,32 @@
                 <div class="content with-margin">
                     <mat-form-field class="numMax">
                         <input matInput placeholder="Max" type="number"
-                        name="max_field" ng-pattern="/^(0|\-?[1-9][0-9]*)$/" required>
+                        name="max_field" ng-pattern="/^(0|\-?[1-9][0-9]*)$/" required
+                        [(ngModel)]="search.data.numMax">
                         </mat-form-field>
                 </div>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-sm">
             <mat-form-field>
-                <input matInput [matDatepicker]="picker" placeholder="Choose a date" required>
+                <input matInput [matDatepicker]="picker" placeholder="Choose a date" 
+                required  [(ngModel)]="search.data.date">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             </div>
-            <div class="col-sm">
-            <div class="buttonLayout">
-                <button mat-button class="button">Search</button>
+        </div>
+        <div align="center">
+            <mat-checkbox [(ngModel)]="search.criteria.name">Name&nbsp;&nbsp;</mat-checkbox>
+            <mat-checkbox [(ngModel)]="search.criteria.numOfVisits">Number of Visits&nbsp;&nbsp;</mat-checkbox>
+            <mat-checkbox [(ngModel)]="search.criteria.date">Date&nbsp;&nbsp;</mat-checkbox>
+        </div>
+        <div class="row" align="center">
+            <div class="col">
+                <button (click)="searchClicked()" mat-fab color="accent">Search</button>
             </div>
-            </div>
-
-
-
         </div>
     </div>
 
@@ -58,34 +63,34 @@
     <!-- <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
     </mat-form-field> -->
+    <div *ngIf="tableDisplay">
+        <table mat-table [dataSource]="dataSource" class="table">
 
-    <table mat-table [dataSource]="dataSource" class="table" matSort>
-
-    <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
-
-    <!-- Position Column -->
-    <ng-container matColumnDef="time">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Time </th>
-        <td mat-cell *matCellDef="let element"> {{element.time}} </td>
-    </ng-container>
-
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-
-    <!-- Species Column -->
-    <ng-container matColumnDef="visit">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> No. of Visits </th>
-        <td mat-cell *matCellDef="let element"> {{element.visit}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <mat-paginator [length]="5" [pageSize]="3" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            <!--- Note that these columns can be defined in any order.
+                    The actual rendered columns are set as a property on the row definition" -->
+        
+            <!-- Position Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.exhibit}} </td>
+            </ng-container>
+        
+            <!-- Name Column -->
+            <ng-container matColumnDef="time">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Time </th>
+                <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+            </ng-container>
+        
+            <!-- Species Column -->
+            <ng-container matColumnDef="numOfVisits">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> No. of Visits </th>
+                <td mat-cell *matCellDef="let element"> {{element.numOfVisits}} </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
 
 </mat-card>
 </div>
