@@ -48,6 +48,8 @@ export class SearchAnimalComponent implements OnInit {
       this.userLink = "Detail";
     } else if (localStorage.getItem('user_type') == 'Staff') {
       this.userLink = "Note";
+    } else {
+      this.userLink = "Remove"
     }
   }
 
@@ -56,6 +58,10 @@ export class SearchAnimalComponent implements OnInit {
     this.httpClient.post('/searchAnimal', this.search).subscribe(res => {
       this.dataSource = new MatTableDataSource<any>(res.data);
     });
+  }
+
+  remove(e) {
+    console.log(e);
   }
 
   animalDetail(data) { 

@@ -30,19 +30,19 @@ export class HomeAdminComponent implements OnInit {
     let command = event.target.innerText;
     switch(command) {
       case 'View Visitors':
-        this.router.navigate(['admin-view-visitor']);
+        this.router.navigate(['admin-view-visitors'], {queryParams: {type: 'Visitor'}});
         break;
       case 'View Show':
-        this.router.navigate(['show-view']);
+        this.router.navigate(['search-show'], {queryParams: {type: 'admin'}});
         break;
       case 'Add Show':
         this.router.navigate(['add-show']);
         break;
       case 'View Staff':
-        this.router.navigate(['admin-view-staff']);
+        this.router.navigate(['admin-view-visitors'], {queryParams: {type: 'Staff'}});
         break;
       case 'View Animals':
-        this.router.navigate(['animal-detail']);
+        this.router.navigate(['search-animal']);
         break;
       case 'Log out':
         this.router.navigate(['login']);

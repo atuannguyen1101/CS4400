@@ -191,9 +191,7 @@ app.post('/logVisitShow', (req, res) => {
 	let response = res;
 	let visitor = req.body.data.username;
 	let show_name = req.body.data.name;
-	let date = new Date();
-	date.setTime(date.getTime() - timeDifference);
-	date = date.toISOString();
+	let date = req.body.data.date_time;
 	connection.query(`INSERT INTO visit_show VALUES (
 		"${show_name}", "${date}", "${visitor}"
 	)`, (err, res, fields) => {
@@ -292,6 +290,69 @@ app.post('/searchShow', (req, res) => {
 	});
 });
 
+app.post('/userSearch', (req, res) => {
+	let response = res;
+	let criteria = req.body.criteria;
+	let data = req.body.data;
+	let username = criteria.username ? data.username : "%";
+	let email = criteria.email ? data.email : "%";
+	let userType = data.userType;
+
+	connection.query(`SELECT username, email FROM user
+	WHERE username LIKE "${username}" AND email LIKE "${email}"
+	AND user_type LIKE "${userType}"`, (err, res, fields) => {
+		if (err) {
+			response.send({
+				message: "fail"
+			});
+		} else {
+			response.send({
+				message: "success",
+				data: res
+			});
+		}
+	});
+});
+
+app.post('/searchShowHistory', (req, res) => {
+	let response = res;
+	let criteria = req.body.criteria;
+	let data = req.body.data;
+	let username = data.username;
+	let name = criteria.name ? data.name : "%";
+	let exhibit = criteria.exhibit ? data.exhibit : "%";
+
+	let date = new Date(data.date);
+	date.setTime(date.getTime() - timeDifference);
+	let start = date;
+	let end = new Date(date);
+	end.setDate(end.getDate() + 1);
+	if (criteria.date) {
+		start = start.toISOString();
+		end = end.toISOString();
+		dateQuery = ` s.date_time < "${end}" AND s.date_time >= "${start}"`;
+	} else {
+		dateQuery = ` s.date_time IS NOT NULL`;
+	}
+
+	connection.query(`SELECT DISTINCT s.name, s.date_time, s.exhibit 
+	FROM visit_show vs JOIN shows s ON vs.show_name = s.name
+	WHERE vs.visitor LIKE "${username}" AND s.name LIKE "${name}" 
+	AND exhibit LIKE "${exhibit}" AND` + dateQuery, (err, res, fields) => {
+		// console.log(err, res);
+		if (err) {
+			response.send({
+				message: "fail"
+			});
+		} else {
+			response.send({
+				message: "success",
+				data: res
+			})
+		}
+	})
+})
+
 app.post('/searchExhibitHistory', (req, res) => {
 	let criteria = req.body.criteria;
 	let data = req.body.data;
@@ -320,7 +381,8 @@ app.post('/searchExhibitHistory', (req, res) => {
 		FROM visit_exhibit
 		GROUP BY exhibit
 	) AS b WHERE a.exhibit = b.exhibit AND a.visitor LIKE "${username}" AND a.exhibit LIKE "${name}" AND` + dateQuery
-	+ ` HAVING numOfVisits >= ${numMin} AND numOfVisits <= ${numMax}`,
+	+ ` HAVING numOfVisits >= ${numMin} AND numOfVisits <= ${numMax}
+	ORDER BY a.date_time DESC`,
 	(err, res, fields) => {
 		if (err) {
 			response.send({

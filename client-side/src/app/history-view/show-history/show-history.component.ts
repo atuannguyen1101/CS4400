@@ -8,14 +8,30 @@ import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
   styleUrls: ['./show-history.component.css']
 })
 export class ShowHistoryComponent implements OnInit {
-  displayedColumns: string[] = ['time', 'name', 'visit'];
+  displayedColumns: string[] = ['name', 'exhibit', 'date'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  showSearchType: string;
+
+  search = {
+    criteria: {
+      name: false,
+      exhibit: false,
+      date: false
+    }, 
+    data: {
+      name: "",
+      exhibit: "",
+      date: Date()
+    }
+  }
+
   constructor() { }
 
   ngOnInit() {
+    this.showSearchType = localStorage.getItem('showSearchType');
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }

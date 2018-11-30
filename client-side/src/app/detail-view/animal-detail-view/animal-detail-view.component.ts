@@ -36,7 +36,7 @@ export class AnimalDetailViewComponent implements OnInit {
       this.animal.type = data['type'];
       this.animal.age = data['age'];
       this.animal.exhibit = data['exhibit'];
-    })
+    });
     this.httpClient.post('/animalNote', {
       name: this.animal.name,
       species: this.animal.species

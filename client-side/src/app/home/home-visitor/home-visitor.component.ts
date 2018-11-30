@@ -32,7 +32,7 @@ export class HomeVisitorComponent implements OnInit {
         this.router.navigate(['search-exhibit']);
         break;
       case 'Search Show':
-        this.router.navigate(['search-show']);
+        this.router.navigate(['search-show'], {queryParams: {type: "search"}});
         break;
       case 'Search For Animal':
         this.router.navigate(['search-animal']);
@@ -41,7 +41,7 @@ export class HomeVisitorComponent implements OnInit {
         this.router.navigate(['exhibit-history']);
         break;
       case 'View show history':
-        this.router.navigate(['show-history']);
+        this.router.navigate(['search-show'], {queryParams: {type: "history"}});
         break;
       case 'Log out':
         this.router.navigate(['login']);

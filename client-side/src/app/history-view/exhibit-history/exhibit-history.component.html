@@ -2,7 +2,9 @@
 
 <div class="test">
 <mat-card>
-    <mat-card-header class="header">Exhibit History</mat-card-header>
+    <mat-card-header>
+        <mat-card-title>Exhibit History</mat-card-title>
+    </mat-card-header>
     <div class="container">
         <div class="row">
             <div class="col-sm">
@@ -47,18 +49,30 @@
             </mat-form-field>
             </div>
         </div>
-        <div align="center">
-            <mat-checkbox [(ngModel)]="search.criteria.name">Name&nbsp;&nbsp;</mat-checkbox>
-            <mat-checkbox [(ngModel)]="search.criteria.numOfVisits">Number of Visits&nbsp;&nbsp;</mat-checkbox>
-            <mat-checkbox [(ngModel)]="search.criteria.date">Date&nbsp;&nbsp;</mat-checkbox>
-        </div>
-        <div class="row" align="center">
-            <div class="col">
-                <button (click)="searchClicked()" mat-fab color="accent">Search</button>
-            </div>
-        </div>
     </div>
 
+    <hr>
+    <mat-card-header>
+        <mat-card-title>Search for</mat-card-title>
+    </mat-card-header>
+    <div class="row">
+        <div class="col-sm">
+            <mat-checkbox [(ngModel)]="search.criteria.name">Name&nbsp;&nbsp;</mat-checkbox>
+        </div>
+
+        <div class="col-sm">
+            <mat-checkbox [(ngModel)]="search.criteria.numOfVisits">Number of Visits&nbsp;&nbsp;</mat-checkbox>
+        </div>
+
+        <div class="col-sm">
+            <mat-checkbox [(ngModel)]="search.criteria.date">Date&nbsp;&nbsp;</mat-checkbox>
+        </div>
+    </div>
+    <div class="row" align="center">
+        <div class="col">
+            <button (click)="searchClicked()" mat-fab color="accent">Search</button>
+        </div>
+    </div>
 
     <!-- <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
