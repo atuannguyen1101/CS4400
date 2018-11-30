@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
 import { HttpClientService } from 'src/app/http-client.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 declare const moment: any;
 
@@ -11,13 +11,14 @@ declare const moment: any;
   styleUrls: ['./search-show.component.css']
 })
 export class SearchShowComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'exhibit', 'date', 'check'];
+  displayedColumns: string[];
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   exhibitList: string[];
   tableDisplay = false;
+  searchShowType: string = "search";
 
   search = {
     criteria: {
@@ -26,6 +27,7 @@ export class SearchShowComponent implements OnInit {
       exhibit: false
     },
     data: {
+      username: localStorage.getItem('username'),
       name: "",
       exhibit: "",
       date: Date
@@ -33,26 +35,33 @@ export class SearchShowComponent implements OnInit {
   }
 
   constructor(private httpClient: HttpClientService,
-    private router: Router) { }
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(data => {
+      this.searchShowType = data.type;
+      if (this.searchShowType == 'history') {
+        this.displayedColumns = ['name', 'exhibit', 'date'];
+      } else if (this.searchShowType == 'search' || this.searchShowType == 'admin') {
+        this.displayedColumns = ['name', 'exhibit', 'date', 'check'];
+      }
+    });
     this.httpClient.get('/exhibitList').subscribe(data => {
       this.exhibitList = data.data;
-    })
-  }
-
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    });
   }
 
   searchClicked() {
     console.log(this.search);
     this.tableDisplay = true;
-    this.httpClient.post('/searchShow', this.search).subscribe(res => {
+    let url = "";
+    if (this.searchShowType == 'history') {
+      url = '/searchShowHistory';
+    } else if (this.searchShowType == 'search' || this.searchShowType == 'admin') {
+      url = '/searchShow';
+    }
+    this.httpClient.post(url, this.search).subscribe(res => {
       for (var i = 0; i < res.data.length; i++) {
         let current = new Date();
         current.setTime(current.getTime() - current.getTimezoneOffset() * 60000);
@@ -67,7 +76,12 @@ export class SearchShowComponent implements OnInit {
 
   logVisit(e) {
     e.username = localStorage.getItem('username');
+    console.log(e);
     this.httpClient.post('/logVisitShow', {data: e}).subscribe();
+  }
+
+  deleteShow(e) {
+    console.log(e);
   }
   
   exhibitDetail(data) {

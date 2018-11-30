@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
+import { HttpClientService } from 'src/app/http-client.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-view-visitors',
@@ -7,33 +9,40 @@ import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
   styleUrls: ['./view-visitors.component.css']
 })
 export class ViewVisitorsComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'time'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  displayedColumns: string[] = ['username', 'email', 'check'];
+  dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  
+  userType: string;
+  tableDisplay = false;
 
-  constructor() { }
+  search = {
+    criteria: {
+      email: false,
+      username: false
+    },
+    data: {
+      email: "",
+      username: "",
+      userType: ""
+    }
+  }
+
+  constructor(private httpClient: HttpClientService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.route.queryParams.subscribe(data => {
+      this.search.data.userType = data.type;
+    })
+  }
+
+  searchClicked() {
+    this.tableDisplay = true;
+    this.httpClient.post('/userSearch', this.search).subscribe(res => {
+      this.dataSource = new MatTableDataSource<any>(res.data);
+    });
   }
 
 }
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  time: string;
-
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen',  time:'Monday'},
-  {position: 2, name: 'Helium',  time:'Monday'},
-  {position: 3, name: 'Lithium', time:'Monday'},
-  {position: 4, name: 'Beryllium', time:'Monday'},
-  {position: 5, name: 'Beryllium2', time:'Monday'},
-  {position: 6, name: 'Beryllium3', time:'Monday'},
-  {position: 7, name: 'Beryllium4', time:'Monday'},
-];
-

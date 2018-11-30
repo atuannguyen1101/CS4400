@@ -1,36 +1,69 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <div class="test">
-  <mat-card>
-      <mat-card-header class="header">Admin - View Visitors</mat-card-header>
-    <table mat-table [dataSource]="dataSource" class="table" matSort>
+<mat-card>
+    <mat-card-header class="header">Admin - View {{search.data.userType}}</mat-card-header>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <div>
+                    <mat-form-field class="nameInput">
+                    <input matInput placeholder="Username" [(ngModel)]="search.data.username">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div>
+                    <mat-form-field class="emailInput">
+                    <input matInput placeholder="Email" [(ngModel)]="search.data.email">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <mat-checkbox [(ngModel)]="search.criteria.username">Username&nbsp;&nbsp;</mat-checkbox>
+            </div>
+            <div class="col-sm">
+                <mat-checkbox [(ngModel)]="search.criteria.email">Email&nbsp;&nbsp;</mat-checkbox>
+            </div>
+        </div>
+        <div class="row" align="center">
+            <div class="col">
+                <button (click)="searchClicked()" mat-fab color="accent">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="tableDisplay">
+        <table mat-table [dataSource]="dataSource" class="table" matSort>
 
 
-      <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
+        <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
 
-      <!-- Position Column -->
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-      </ng-container>
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="time">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-          <td mat-cell *matCellDef="let element"> {{element.time}} </td>
+        <!-- Position Column -->
+        <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
+            <td mat-cell *matCellDef="let element"> {{element.username}} </td>
         </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <div>
-        <button mat-button class="button">Delete Visitor</button>
+        <!-- Name Column -->
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="check">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center"></th>
+            <td *matCellDef="let element;" style="text-align: center;">
+                <button mat-raised-button color="primary" (click)="remove(element)">Remove</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
     </div>
-  </mat-card>
+</mat-card>
 </div>

@@ -9,6 +9,14 @@
 .header {
   font-size: 20px;
 }
+.row {
+  padding: 15px
+}
+
+.col-sm {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
 
 .table {
   width: 100%;
