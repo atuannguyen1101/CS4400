@@ -101,7 +101,7 @@
             <ng-container *ngIf="searchShowType == 'admin'" matColumnDef="check">
                 <th mat-header-cell *matHeaderCellDef style="text-align: center"></th>
                 <td *matCellDef="let element;" style="text-align: center;">
-                    <button mat-raised-button color="primary" (click)="logVisit(element)">Remove</button>
+                    <button mat-raised-button color="primary" (click)="remove(element)">Remove</button>
                 </td>
             </ng-container>
 

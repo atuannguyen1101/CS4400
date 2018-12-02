@@ -77,7 +77,11 @@ export class SearchAnimalComponent implements OnInit {
   }
 
   remove(e) {
-    console.log(e);
+    this.httpClient.post('/removeAnimal', e).subscribe(res => {
+      this.httpClient.post('/searchAnimal', this.search).subscribe(res => {
+        this.dataSource = new MatTableDataSource<any>(res.data);
+      });
+    })
   }
 
   animalDetail(data) { 

@@ -283,7 +283,7 @@ app.post('/searchAnimal', (req, res) => {
 })
 
 app.post('/searchShow', (req, res) => {
-	console.log(req.body)
+	// console.log(req.body)
 	let response = res;
 	let criteria = req.body.criteria;
 	let data = req.body.data;
@@ -319,7 +319,7 @@ app.post('/searchShow', (req, res) => {
 
 	connection.query(`SELECT * FROM shows WHERE name LIKE "${name}" AND exhibit LIKE "${exhibit}" 
 	AND host LIKE "${host}" AND` + dateQuery + sortQuery, (err, res, fields) => {
-		console.log(err, res);
+		// console.log(err, res);
 		response.send({
 			message: "success",
 			data: res
@@ -496,6 +496,49 @@ app.post('/removeUser', (req, res) => {
 			})
 		}
 	});
+});
+
+app.post('/removeShow', (req, res) => {
+	let response = res;
+	let name = req.body.name;
+	let date_time = new Date(req.body.date_time);
+	date_time.setTime(date_time.getTime() - 60000 * date_time.getTimezoneOffset());
+	let date = date_time.toISOString();
+	date = date.substring(0, date.length - 1);
+	// console.log(name, date);
+	connection.query(`DELETE FROM shows
+	WHERE name="${name}" AND date_time="${date}"`, 
+	(err, res, fields) => {
+		console.log(err, res);
+		if (err) {
+			response.send({
+				message: "fail"
+			});
+		} else {
+			response.send({
+				message: "success"
+			});
+		}
+	});
+});
+
+app.post('/removeAnimal', (req, res) => {
+	let response = res;
+	let name = req.body.name;
+	let species = req.body.species;
+	connection.query(`DELETE FROM animal 
+	WHERE name="${name}" AND species="${species}"`, 
+	(err, res, fields) => {
+		if (err) {
+			response.send({
+				message: "fail"
+			});
+		} else {
+			response.send({
+				message: "success"
+			});
+		}
+	})
 })
 
 app.get('/api/data', (req, res) => {
