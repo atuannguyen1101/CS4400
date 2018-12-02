@@ -332,10 +332,22 @@ app.post('/userSearch', (req, res) => {
 	let username = criteria.username ? data.username : "%";
 	let email = criteria.email ? data.email : "%";
 	let userType = data.userType;
+	
+	let sort = req.body.sortCriteria;
+	let sortQuery = "";
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				sortQuery += ` ORDER BY ${i} `;
+				sortQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
 
 	connection.query(`SELECT username, email FROM user
 	WHERE username LIKE "${username}" AND email LIKE "${email}"
-	AND user_type LIKE "${userType}"`, (err, res, fields) => {
+	AND user_type LIKE "${userType}"` + sortQuery, (err, res, fields) => {
+		console.log(err, res);
 		if (err) {
 			response.send({
 				message: "fail"

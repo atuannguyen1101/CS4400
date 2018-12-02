@@ -11,8 +11,6 @@ import { ActivatedRoute } from '@angular/router';
 export class ViewVisitorsComponent implements OnInit {
   displayedColumns: string[] = ['username', 'email', 'check'];
   dataSource = new MatTableDataSource<any>([]);
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   
   userType: string;
   tableDisplay = false;
@@ -29,6 +27,17 @@ export class ViewVisitorsComponent implements OnInit {
     }
   }
 
+  sortCriteria = {
+    criteria: {
+      email: false,
+      username: false
+    },
+    ascending: {
+      email: false,
+      username: false
+    }
+  }
+
   constructor(private httpClient: HttpClientService,
     private route: ActivatedRoute) { }
 
@@ -39,10 +48,29 @@ export class ViewVisitorsComponent implements OnInit {
   }
 
   searchClicked() {
+    delete this.search['sortCriteria'];
     this.tableDisplay = true;
     this.httpClient.post('/userSearch', this.search).subscribe(res => {
       this.dataSource = new MatTableDataSource<any>(res.data);
     });
   }
-
+ 
+  sort(e) {
+    let sortField = e.target.innerText.toLowerCase();
+    if (sortField == "date") {
+      sortField = "date_time"
+    }
+    for (var i of Object.keys(this.sortCriteria.criteria)) {
+      if (i != sortField) {
+        this.sortCriteria.criteria[i] = false;
+        this.sortCriteria.ascending[i] = false;
+      }
+    }
+    this.sortCriteria.criteria[sortField] = true;
+    this.sortCriteria.ascending[sortField] = !this.sortCriteria.ascending[sortField];
+    this.search['sortCriteria'] = this.sortCriteria;
+    this.httpClient.post('/userSearch', this.search).subscribe(res => {
+      this.dataSource = new MatTableDataSource<any>(res.data);
+    });
+  }
 }
