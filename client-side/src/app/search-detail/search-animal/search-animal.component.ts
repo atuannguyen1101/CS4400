@@ -50,22 +50,6 @@ export class SearchAnimalComponent implements OnInit {
     }
   }
 
-  sort(e) {
-    let sortField = e.target.innerText.toLowerCase();
-    for (var i of Object.keys(this.sortCriteria.criteria)) {
-      if (i != sortField) {
-        this.sortCriteria.criteria[i] = false;
-        this.sortCriteria.ascending[i] = false;
-      }
-      this.sortCriteria.criteria[sortField] = true;
-      this.sortCriteria.ascending[sortField] = !this.sortCriteria.ascending[sortField];
-    }
-    this.search['sortCriteria'] = this.sortCriteria;
-    this.httpClient.post('/searchAnimal', this.search).subscribe(res => {
-      this.dataSource = new MatTableDataSource<any>(res.data);
-    });
-  }
-
   tableDisplay = false;
 
   constructor(private httpClient: HttpClientService,
@@ -100,7 +84,19 @@ export class SearchAnimalComponent implements OnInit {
     this.router.navigate(['animal-detail'], {queryParams : data});
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  sort(e) {
+    let sortField = e.target.innerText.toLowerCase();
+    for (var i of Object.keys(this.sortCriteria.criteria)) {
+      if (i != sortField) {
+        this.sortCriteria.criteria[i] = false;
+        this.sortCriteria.ascending[i] = false;
+      }
+    }
+    this.sortCriteria.criteria[sortField] = true;
+    this.sortCriteria.ascending[sortField] = !this.sortCriteria.ascending[sortField];
+    this.search['sortCriteria'] = this.sortCriteria;
+    this.httpClient.post('/searchAnimal', this.search).subscribe(res => {
+      this.dataSource = new MatTableDataSource<any>(res.data);
+    });
   }
 }

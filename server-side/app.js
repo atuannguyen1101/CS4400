@@ -195,7 +195,7 @@ app.post('/logVisitShow', (req, res) => {
 	connection.query(`INSERT INTO visit_show VALUES (
 		"${show_name}", "${date}", "${visitor}"
 	)`, (err, res, fields) => {
-		console.log(err, res);
+		// console.log(err, res);
 		if (err) {
 			response.send({
 				message: "fail"
@@ -219,12 +219,23 @@ app.post('/searchExhibit', (req, res) => {
 	let sizeMax = criteria.size ? data.sizeMax : 99999999;
 	let water_feature = criteria.water_feature ? data.water_feature : " NOT NULL";
 	let searchQuery = `WHERE e.name LIKE "${name}" AND e.size >= ${sizeMin} AND e.size <= ${sizeMax} AND e.water_feature IS ${water_feature} `;
-	// console.log(searchQuery);
+	
+	let sort = req.body.sortCriteria;
+	let sortQuery = "";
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				sortQuery += ` ORDER BY ${i} `;
+				sortQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
+
 	connection.query(`SELECT e.name, e.size, e.water_feature, COUNT(*) numOfAnimals `
 	+ `FROM exhibit e INNER JOIN animal a ON e.name = a.exhibit ` + searchQuery
-	+ ` GROUP BY e.name HAVING numOfAnimals >= ${numMin} AND numOfAnimals <= ${numMax}`, 
+	+ ` GROUP BY e.name HAVING numOfAnimals >= ${numMin} AND numOfAnimals <= ${numMax} ` + sortQuery, 
 	(err, res, fields) => {
-		// console.log(err);
+		// console.log(err, res);
 		if (err) {
 			response.send({
 				message: "fail"
@@ -271,6 +282,7 @@ app.post('/searchAnimal', (req, res) => {
 })
 
 app.post('/searchShow', (req, res) => {
+	console.log(req.body)
 	let response = res;
 	let criteria = req.body.criteria;
 	let data = req.body.data;
@@ -292,7 +304,19 @@ app.post('/searchShow', (req, res) => {
 		dateQuery = ` date_time IS NOT NULL`;
 	}
 
-	connection.query(`SELECT * FROM shows WHERE name LIKE "${name}" AND exhibit LIKE "${exhibit}" AND host LIKE "${host}" AND` + dateQuery, (err, res, fields) => {
+	let sort = req.body.sortCriteria;
+	let sortQuery = ""
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				sortQuery += ` ORDER BY ${i} `;
+				sortQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
+
+	connection.query(`SELECT * FROM shows WHERE name LIKE "${name}" AND exhibit LIKE "${exhibit}" 
+	AND host LIKE "${host}" AND` + dateQuery + sortQuery, (err, res, fields) => {
 		// console.log(err, res);
 		response.send({
 			message: "success",
