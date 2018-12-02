@@ -250,6 +250,17 @@ app.post('/searchAnimal', (req, res) => {
 	let ageMax = criteria.age ? data.ageMax : 99999999;
 	let searchQuery = ` WHERE name LIKE "${name}" AND exhibit LIKE "${exhibit}"`
 		+ `AND species LIKE "${species}" AND type LIKE "${type}" AND age <= ${ageMax} AND age >= ${ageMin}`;
+	
+	let sort = req.body.sortCriteria;
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				searchQuery += ` ORDER BY ${i} `;
+				searchQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
+	
 	connection.query(`SELECT * FROM animal` + searchQuery, (err, res, fields) => {
 		// console.log(err, res)
 		response.send({

@@ -57,3 +57,21 @@ td, th {
     cursor: pointer;
 }
 
+th:hover {
+  cursor: pointer;
+}
+
+th {
+  text-decoration: underline;
+  color: black;
+  font-weight: bold;
+}
+
+.sortButton {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
