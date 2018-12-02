@@ -50,10 +50,13 @@ export class RegisterComponent implements OnInit {
     this.httpClient.post('/register', account).subscribe((data) => {
       if (data.message == "success") {
         // Save to authServer to keep token
-        this.authService.login({
-          email: this.email,
-          password: this.password
-        });
+        localStorage.setItem('userType', account.type);
+        localStorage.setItem('username', account.username);
+        this.router.navigate(['home-staff']);
+        // this.authService.login({
+        //   email: this.email,
+        //   password: this.password
+        // });
       } else {
         this.errorMessage = data.message;
       }
