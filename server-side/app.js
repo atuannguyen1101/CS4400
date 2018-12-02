@@ -314,10 +314,11 @@ app.post('/searchShow', (req, res) => {
 			}
 		}
 	}
+	// console.log(host);
 
 	connection.query(`SELECT * FROM shows WHERE name LIKE "${name}" AND exhibit LIKE "${exhibit}" 
 	AND host LIKE "${host}" AND` + dateQuery + sortQuery, (err, res, fields) => {
-		// console.log(err, res);
+		console.log(err, res);
 		response.send({
 			message: "success",
 			data: res
