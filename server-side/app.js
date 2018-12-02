@@ -191,11 +191,12 @@ app.post('/logVisitShow', (req, res) => {
 	let response = res;
 	let visitor = req.body.data.username;
 	let show_name = req.body.data.name;
-	let date = req.body.data.date_time;
+	let date = new Date(req.body.data.date_time);
+	date.setTime(date.getTime() - timeDifference);
 	connection.query(`INSERT INTO visit_show VALUES (
-		"${show_name}", "${date}", "${visitor}"
+		"${show_name}", "${date.toISOString()}", "${visitor}"
 	)`, (err, res, fields) => {
-		// console.log(err, res);
+		console.log(err, res);
 		if (err) {
 			response.send({
 				message: "fail"
@@ -479,6 +480,23 @@ app.post('/animalByExhibit', (req, res) => {
 		})
 	})
 });
+
+app.post('/removeUser', (req, res) => {
+	let response = res;
+	let username = req.body.username;
+	connection.query(`DELETE FROM user WHERE username = "${username}"`,
+	(err, res, fields) => {
+		if (err) {
+			response.send({
+				message: "fail"
+			});
+		} else {
+			response.send({
+				message: "success"
+			})
+		}
+	});
+})
 
 app.get('/api/data', (req, res) => {
 	console.log(req.session.user)

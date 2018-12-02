@@ -73,4 +73,12 @@ export class ViewVisitorsComponent implements OnInit {
       this.dataSource = new MatTableDataSource<any>(res.data);
     });
   }
+
+  remove(e) {
+    this.httpClient.post('/removeUser', {username: e.username}).subscribe(res => {
+      this.httpClient.post('/userSearch', this.search).subscribe(res => {
+        this.dataSource = new MatTableDataSource<any>(res.data);
+      });
+    })
+  }
 }
