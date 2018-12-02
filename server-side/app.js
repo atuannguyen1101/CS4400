@@ -370,10 +370,22 @@ app.post('/searchShowHistory', (req, res) => {
 		dateQuery = ` s.date_time IS NOT NULL`;
 	}
 
+	let sort = req.body.sortCriteria;
+	let sortQuery = "";
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				sortQuery += ` ORDER BY ${i} `;
+				sortQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
+
 	connection.query(`SELECT DISTINCT s.name, s.date_time, s.exhibit 
 	FROM visit_show vs JOIN shows s ON vs.show_name = s.name
 	WHERE vs.visitor LIKE "${username}" AND s.name LIKE "${name}" 
-	AND exhibit LIKE "${exhibit}" AND` + dateQuery, (err, res, fields) => {
+	AND exhibit LIKE "${exhibit}" AND` + dateQuery + sortQuery, 
+	(err, res, fields) => {
 		// console.log(err, res);
 		if (err) {
 			response.send({
@@ -410,15 +422,26 @@ app.post('/searchExhibitHistory', (req, res) => {
 		dateQuery = ` a.date_time IS NOT NULL`;
 	}
 
+	let sort = req.body.sortCriteria;
+	let sortQuery = "";
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				sortQuery += ` ORDER BY ${i} `;
+				sortQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
+
 	connection.query(`SELECT a.exhibit, a.date_time, numOfVisits `
 	+ ` FROM visit_exhibit a, (
 		SELECT exhibit, COUNT(*) AS numOfVisits
 		FROM visit_exhibit
 		GROUP BY exhibit
 	) AS b WHERE a.exhibit = b.exhibit AND a.visitor LIKE "${username}" AND a.exhibit LIKE "${name}" AND` + dateQuery
-	+ ` HAVING numOfVisits >= ${numMin} AND numOfVisits <= ${numMax}
-	ORDER BY a.date_time DESC`,
+	+ ` HAVING numOfVisits >= ${numMin} AND numOfVisits <= ${numMax} ` + sortQuery, 
 	(err, res, fields) => {
+		console.log(err, res);
 		if (err) {
 			response.send({
 				message: "fail"

@@ -119,10 +119,16 @@ export class SearchShowComponent implements OnInit {
         this.sortCriteria.ascending[i] = false;
       }
     }
+    let url = "";
     this.sortCriteria.criteria[sortField] = true;
     this.sortCriteria.ascending[sortField] = !this.sortCriteria.ascending[sortField];
     this.search['sortCriteria'] = this.sortCriteria;
-    this.httpClient.post('/searchShow', this.search).subscribe(res => {
+    if (this.searchShowType == 'history') {
+      url = '/searchShowHistory';
+    } else if (this.searchShowType == 'search' || this.searchShowType == 'admin') {
+      url = '/searchShow';
+    }
+    this.httpClient.post(url, this.search).subscribe(res => {
       for (var i = 0; i < res.data.length; i++) {
         let current = new Date();
         current.setTime(current.getTime() - current.getTimezoneOffset() * 60000);

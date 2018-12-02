@@ -30,12 +30,26 @@ export class ExhibitHistoryComponent implements OnInit {
     }
   }
 
+  sortCriteria = {
+    criteria: {
+      name: false,
+      numOfVisits: false,
+      date: false
+    },
+    ascending: {
+      name: false,
+      numOfVisits: false,
+      date: false
+    }
+  }
+
   constructor(private httpClient: HttpClientService) { }
 
   ngOnInit() {
   }
 
   searchClicked() {
+    delete this.search['sortCriteria'];
     this.search.data.username = localStorage.getItem('username');
     this.tableDisplay = true;
     this.httpClient.post('/searchExhibitHistory', this.search).subscribe(res => {
@@ -45,12 +59,29 @@ export class ExhibitHistoryComponent implements OnInit {
       this.dataSource = new MatTableDataSource<any>(res.data);
     })
   }
-
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+  
+  sort(e) {
+    let sortField = e.target.innerText.toLowerCase();
+    if (sortField == "number of visits") {
+      sortField = "numOfVisits";
+    } else if (sortField == "date") {
+      sortField = "date_time";
     }
+    // console.log(sortField);
+    for (var i of Object.keys(this.sortCriteria.criteria)) {
+      if (i != sortField) {
+        this.sortCriteria.criteria[i] = false;
+        this.sortCriteria.ascending[i] = false;
+      }
+    }
+    this.sortCriteria.criteria[sortField] = true;
+    this.sortCriteria.ascending[sortField] = !this.sortCriteria.ascending[sortField];
+    this.search['sortCriteria'] = this.sortCriteria;
+    this.httpClient.post('/searchExhibitHistory', this.search).subscribe(res => {
+      for (var i = 0; i < res.data.length; i++) {
+        res.data[i].date = moment(res.data[i].date_time).format('MM/DD/YYYY [at] hh:mm A');
+      }
+      this.dataSource = new MatTableDataSource<any>(res.data);
+    });
   }
 }
