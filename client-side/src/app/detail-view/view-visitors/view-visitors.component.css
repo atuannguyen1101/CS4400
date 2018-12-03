@@ -29,3 +29,13 @@ td, th {
   background-color: #ffffe6;
   margin-top: 30px
 }
+
+th:hover {
+  cursor: pointer;
+}
+
+th {
+  text-decoration: underline;
+  color: black;
+  font-weight: bold;
+}

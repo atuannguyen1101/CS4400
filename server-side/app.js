@@ -118,19 +118,29 @@ app.post('/addAnimal', (req, res) => {
 app.post('/addShow', (req, res) => {
 	let show = req.body;
 	let response = res;
-	connection.query(`INSERT INTO shows VALUES` +
-		`("${show.name}", "${show.date}", "${show.staff}", "${show.exhibit}")`,
-		(err, res, fields) => {
-			if (err) {
-				response.send({
-					"message": "Constraint, look in documentation"
-				});
-			} else {
-				response.send({
-					"message": "success"
-				})
-			}
-		});
+	connection.query(`SELECT * FROM shows 
+	WHERE host="${show.staff}" AND date_time="${show.date}"`, (err, res, fields) => {
+		console.log(err, res);
+		if (err || res.length != 0) {
+			response.send({
+				message: "This staff is already on the other show at this time"
+			})
+		} else {
+			connection.query(`INSERT INTO shows VALUES` +
+			`("${show.name}", "${show.date}", "${show.staff}", "${show.exhibit}")`,
+			(err, res, fields) => {
+				if (err) {
+					response.send({
+						"message": "Constraint, look in documentation"
+					});
+				} else {
+					response.send({
+						"message": "success"
+					})
+				}
+			});
+		}
+	})
 });
 
 app.post('/addNote', (req, res) => {
@@ -154,8 +164,21 @@ app.post('/addNote', (req, res) => {
 app.post('/animalNote', (req, res) => {
 	let response = res;
 	let a = req.body;
+	
+	let sort = req.body.sortCriteria;
+	let sortQuery = "";
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				sortQuery += ` ORDER BY ${i} `;
+				sortQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
+
 	connection.query(`SELECT staff_member, text_care, date_time FROM animal_care ` 
-	+ `WHERE animal = "${a.name}" AND species = "${a.species}"`, (err, res, fields) => {
+	+ `WHERE animal = "${a.name}" AND species = "${a.species}"` + sortQuery, (err, res, fields) => {
+		console.log(err, res)
 		if (err) {
 			response.send({
 				message: "fail"
@@ -191,9 +214,10 @@ app.post('/logVisitShow', (req, res) => {
 	let response = res;
 	let visitor = req.body.data.username;
 	let show_name = req.body.data.name;
-	let date = req.body.data.date_time;
+	let date = new Date(req.body.data.date_time);
+	date.setTime(date.getTime() - timeDifference);
 	connection.query(`INSERT INTO visit_show VALUES (
-		"${show_name}", "${date}", "${visitor}"
+		"${show_name}", "${date.toISOString()}", "${visitor}"
 	)`, (err, res, fields) => {
 		console.log(err, res);
 		if (err) {
@@ -219,12 +243,23 @@ app.post('/searchExhibit', (req, res) => {
 	let sizeMax = criteria.size ? data.sizeMax : 99999999;
 	let water_feature = criteria.water_feature ? data.water_feature : " NOT NULL";
 	let searchQuery = `WHERE e.name LIKE "${name}" AND e.size >= ${sizeMin} AND e.size <= ${sizeMax} AND e.water_feature IS ${water_feature} `;
-	// console.log(searchQuery);
+	
+	let sort = req.body.sortCriteria;
+	let sortQuery = "";
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				sortQuery += ` ORDER BY ${i} `;
+				sortQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
+
 	connection.query(`SELECT e.name, e.size, e.water_feature, COUNT(*) numOfAnimals `
 	+ `FROM exhibit e INNER JOIN animal a ON e.name = a.exhibit ` + searchQuery
-	+ ` GROUP BY e.name HAVING numOfAnimals >= ${numMin} AND numOfAnimals <= ${numMax}`, 
+	+ ` GROUP BY e.name HAVING numOfAnimals >= ${numMin} AND numOfAnimals <= ${numMax} ` + sortQuery, 
 	(err, res, fields) => {
-		// console.log(err);
+		// console.log(err, res);
 		if (err) {
 			response.send({
 				message: "fail"
@@ -250,6 +285,17 @@ app.post('/searchAnimal', (req, res) => {
 	let ageMax = criteria.age ? data.ageMax : 99999999;
 	let searchQuery = ` WHERE name LIKE "${name}" AND exhibit LIKE "${exhibit}"`
 		+ `AND species LIKE "${species}" AND type LIKE "${type}" AND age <= ${ageMax} AND age >= ${ageMin}`;
+	
+	let sort = req.body.sortCriteria;
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				searchQuery += ` ORDER BY ${i} `;
+				searchQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
+	
 	connection.query(`SELECT * FROM animal` + searchQuery, (err, res, fields) => {
 		// console.log(err, res)
 		response.send({
@@ -260,6 +306,7 @@ app.post('/searchAnimal', (req, res) => {
 })
 
 app.post('/searchShow', (req, res) => {
+	// console.log(req.body)
 	let response = res;
 	let criteria = req.body.criteria;
 	let data = req.body.data;
@@ -281,7 +328,20 @@ app.post('/searchShow', (req, res) => {
 		dateQuery = ` date_time IS NOT NULL`;
 	}
 
-	connection.query(`SELECT * FROM shows WHERE name LIKE "${name}" AND exhibit LIKE "${exhibit}" AND host LIKE "${host}" AND` + dateQuery, (err, res, fields) => {
+	let sort = req.body.sortCriteria;
+	let sortQuery = ""
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				sortQuery += ` ORDER BY ${i} `;
+				sortQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
+	// console.log(host);
+
+	connection.query(`SELECT * FROM shows WHERE name LIKE "${name}" AND exhibit LIKE "${exhibit}" 
+	AND host LIKE "${host}" AND` + dateQuery + sortQuery, (err, res, fields) => {
 		// console.log(err, res);
 		response.send({
 			message: "success",
@@ -297,10 +357,22 @@ app.post('/userSearch', (req, res) => {
 	let username = criteria.username ? data.username : "%";
 	let email = criteria.email ? data.email : "%";
 	let userType = data.userType;
+	
+	let sort = req.body.sortCriteria;
+	let sortQuery = "";
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				sortQuery += ` ORDER BY ${i} `;
+				sortQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
 
 	connection.query(`SELECT username, email FROM user
 	WHERE username LIKE "${username}" AND email LIKE "${email}"
-	AND user_type LIKE "${userType}"`, (err, res, fields) => {
+	AND user_type LIKE "${userType}"` + sortQuery, (err, res, fields) => {
+		console.log(err, res);
 		if (err) {
 			response.send({
 				message: "fail"
@@ -335,10 +407,22 @@ app.post('/searchShowHistory', (req, res) => {
 		dateQuery = ` s.date_time IS NOT NULL`;
 	}
 
+	let sort = req.body.sortCriteria;
+	let sortQuery = "";
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				sortQuery += ` ORDER BY ${i} `;
+				sortQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
+
 	connection.query(`SELECT DISTINCT s.name, s.date_time, s.exhibit 
 	FROM visit_show vs JOIN shows s ON vs.show_name = s.name
 	WHERE vs.visitor LIKE "${username}" AND s.name LIKE "${name}" 
-	AND exhibit LIKE "${exhibit}" AND` + dateQuery, (err, res, fields) => {
+	AND exhibit LIKE "${exhibit}" AND` + dateQuery + sortQuery, 
+	(err, res, fields) => {
 		// console.log(err, res);
 		if (err) {
 			response.send({
@@ -375,15 +459,26 @@ app.post('/searchExhibitHistory', (req, res) => {
 		dateQuery = ` a.date_time IS NOT NULL`;
 	}
 
+	let sort = req.body.sortCriteria;
+	let sortQuery = "";
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				sortQuery += ` ORDER BY ${i} `;
+				sortQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
+
 	connection.query(`SELECT a.exhibit, a.date_time, numOfVisits `
 	+ ` FROM visit_exhibit a, (
 		SELECT exhibit, COUNT(*) AS numOfVisits
 		FROM visit_exhibit
 		GROUP BY exhibit
 	) AS b WHERE a.exhibit = b.exhibit AND a.visitor LIKE "${username}" AND a.exhibit LIKE "${name}" AND` + dateQuery
-	+ ` HAVING numOfVisits >= ${numMin} AND numOfVisits <= ${numMax}
-	ORDER BY a.date_time DESC`,
+	+ ` HAVING numOfVisits >= ${numMin} AND numOfVisits <= ${numMax} ` + sortQuery, 
 	(err, res, fields) => {
+		console.log(err, res);
 		if (err) {
 			response.send({
 				message: "fail"
@@ -408,6 +503,66 @@ app.post('/animalByExhibit', (req, res) => {
 		})
 	})
 });
+
+app.post('/removeUser', (req, res) => {
+	let response = res;
+	let username = req.body.username;
+	connection.query(`DELETE FROM user WHERE username = "${username}"`,
+	(err, res, fields) => {
+		if (err) {
+			response.send({
+				message: "fail"
+			});
+		} else {
+			response.send({
+				message: "success"
+			})
+		}
+	});
+});
+
+app.post('/removeShow', (req, res) => {
+	let response = res;
+	let name = req.body.name;
+	let date_time = new Date(req.body.date_time);
+	date_time.setTime(date_time.getTime() - 60000 * date_time.getTimezoneOffset());
+	let date = date_time.toISOString();
+	date = date.substring(0, date.length - 1);
+	// console.log(name, date);
+	connection.query(`DELETE FROM shows
+	WHERE name="${name}" AND date_time="${date}"`, 
+	(err, res, fields) => {
+		console.log(err, res);
+		if (err) {
+			response.send({
+				message: "fail"
+			});
+		} else {
+			response.send({
+				message: "success"
+			});
+		}
+	});
+});
+
+app.post('/removeAnimal', (req, res) => {
+	let response = res;
+	let name = req.body.name;
+	let species = req.body.species;
+	connection.query(`DELETE FROM animal 
+	WHERE name="${name}" AND species="${species}"`, 
+	(err, res, fields) => {
+		if (err) {
+			response.send({
+				message: "fail"
+			});
+		} else {
+			response.send({
+				message: "success"
+			});
+		}
+	})
+})
 
 app.get('/api/data', (req, res) => {
 	console.log(req.session.user)

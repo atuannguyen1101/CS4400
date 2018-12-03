@@ -16,3 +16,13 @@
 td, th {
   width: 25%;
 }
+
+th:hover {
+  cursor: pointer;
+}
+
+th {
+  text-decoration: underline;
+  color: black;
+  font-weight: bold;
+}

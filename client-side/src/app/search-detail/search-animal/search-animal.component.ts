@@ -13,8 +13,6 @@ export class SearchAnimalComponent implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
   typeList: string[] = ['Mammal', 'Bird', 'Amphibian', 'Reptile', 'Fish', 'Invertebrate'];
   exhibitList: string[];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   userLink: string;
 
   search = {
@@ -32,6 +30,23 @@ export class SearchAnimalComponent implements OnInit {
       ageMin: 0,
       ageMax: 0,
       type: ""
+    }
+  }
+
+  sortCriteria = {
+    criteria: {
+      name: false,
+      exhibit: false,
+      species: false,
+      age: false,
+      type: false
+    },
+    ascending: {
+      name: false,
+      exhibit: false,
+      species: false,
+      age: false,
+      type: false
     }
   }
 
@@ -54,6 +69,7 @@ export class SearchAnimalComponent implements OnInit {
   }
 
   searchClicked() {
+    delete this.search['sortCriteria'];
     this.tableDisplay = true;
     this.httpClient.post('/searchAnimal', this.search).subscribe(res => {
       this.dataSource = new MatTableDataSource<any>(res.data);
@@ -61,14 +77,30 @@ export class SearchAnimalComponent implements OnInit {
   }
 
   remove(e) {
-    console.log(e);
+    this.httpClient.post('/removeAnimal', e).subscribe(res => {
+      this.httpClient.post('/searchAnimal', this.search).subscribe(res => {
+        this.dataSource = new MatTableDataSource<any>(res.data);
+      });
+    })
   }
 
   animalDetail(data) { 
     this.router.navigate(['animal-detail'], {queryParams : data});
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  sort(e) {
+    let sortField = e.target.innerText.toLowerCase();
+    for (var i of Object.keys(this.sortCriteria.criteria)) {
+      if (i != sortField) {
+        this.sortCriteria.criteria[i] = false;
+        this.sortCriteria.ascending[i] = false;
+      }
+    }
+    this.sortCriteria.criteria[sortField] = true;
+    this.sortCriteria.ascending[sortField] = !this.sortCriteria.ascending[sortField];
+    this.search['sortCriteria'] = this.sortCriteria;
+    this.httpClient.post('/searchAnimal', this.search).subscribe(res => {
+      this.dataSource = new MatTableDataSource<any>(res.data);
+    });
   }
 }

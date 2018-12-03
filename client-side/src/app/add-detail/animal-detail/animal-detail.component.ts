@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
-
+declare const $: any;
 
 @Component({
   selector: 'app-animal-detail',
@@ -13,6 +13,7 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class AnimalDetailComponent implements OnInit {
 
+  checkBox = false;
   name: string = '';
   type: string = '';
   age: string = '';
@@ -26,7 +27,8 @@ export class AnimalDetailComponent implements OnInit {
     type: new FormControl(''),
     exhibit: new FormControl('', Validators.required),
     specie: new FormControl('', Validators.required)
-  })
+  });
+  errorMessage = "";
 
   constructor(private httpClient: HttpClientService) { }
 
@@ -45,7 +47,18 @@ export class AnimalDetailComponent implements OnInit {
       exhibit: this.exhibit.name
     };
     this.httpClient.post("/addAnimal", data).subscribe((res) => {
-      console.log(res);
+      $(".check_mark").addClass("hide");
+      this.errorMessage = "";
+      if (res['message'] == 'success') {
+        setTimeout(function() {
+          $(".check_mark").removeClass("hide");
+        }, 10);
+        setTimeout(() => {
+          $(".check_mark").addClass("hide");
+        }, 2500);
+      } else {
+        this.errorMessage = res['message'];
+      }
     });
   }
 }

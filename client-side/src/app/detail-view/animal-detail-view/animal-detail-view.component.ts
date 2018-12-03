@@ -20,6 +20,20 @@ export class AnimalDetailViewComponent implements OnInit {
   animal: any = {};
   userType: string;
   note: string;
+
+  //staff_member, text_care, date_time
+  sortCriteria = {
+    criteria: {
+      staff_member: false,
+      text_care: false,
+      date_time: false
+    },
+    ascending: {
+      staff_member: false,
+      text_care: false,
+      date_time: false
+    }
+  }
   
   form = new FormGroup({
     note: new FormControl('', Validators.required)
@@ -65,4 +79,34 @@ export class AnimalDetailViewComponent implements OnInit {
     });
   }
 
+  sort(e) {
+    let sortField = e.target.innerText.toLowerCase();
+    if (sortField == "time") {
+      sortField = "date_time";
+    } else if (sortField == "staff member") {
+      sortField = "staff_member";
+    } else if (sortField == "note") {
+      sortField = "text_care";
+    }
+    console.log(sortField);
+    for (var i of Object.keys(this.sortCriteria.criteria)) {
+      if (i != sortField) {
+        this.sortCriteria.criteria[i] = false;
+        this.sortCriteria.ascending[i] = false;
+      }
+    }
+    this.sortCriteria.criteria[sortField] = true;
+    this.sortCriteria.ascending[sortField] = !this.sortCriteria.ascending[sortField];
+    this.httpClient.post('/animalNote', {
+      name: this.animal.name,
+      species: this.animal.species,
+      sortCriteria: this.sortCriteria
+    }).subscribe(res => {
+      for (var i = 0; i < res.data.length; i++) {
+        res.data[i].date = moment(res.data[i].date_time).format('MM/DD/YYYY [at] hh:mm A');
+      }
+      this.tableData = res.data;
+      this.dataSource = new MatTableDataSource<any>(this.tableData);
+    });
+  }
 }

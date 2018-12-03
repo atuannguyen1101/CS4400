@@ -13,8 +13,6 @@ declare const moment: any;
 export class SearchShowComponent implements OnInit {
   displayedColumns: string[];
   dataSource = new MatTableDataSource<any>([]);
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
 
   exhibitList: string[];
   tableDisplay = false;
@@ -34,6 +32,18 @@ export class SearchShowComponent implements OnInit {
     }
   }
 
+  sortCriteria = {
+    criteria: {
+      name: false,
+      date_time: false,
+      exhibit: false
+    },
+    ascending: {
+      name: false,
+      date_time: false,
+      exhibit: false
+    }
+  }
   constructor(private httpClient: HttpClientService,
     private router: Router,
     private route: ActivatedRoute) { }
@@ -53,7 +63,7 @@ export class SearchShowComponent implements OnInit {
   }
 
   searchClicked() {
-    console.log(this.search);
+    delete this.search['sortCriteria'];
     this.tableDisplay = true;
     let url = "";
     if (this.searchShowType == 'history') {
@@ -69,7 +79,7 @@ export class SearchShowComponent implements OnInit {
         res.data[i].date = moment(res.data[i].date_time).format('MM/DD/YYYY [at] hh:mm A');
         res.data[i].logged = false;
       }
-      console.log(res.data);
+      // console.log(res.data);
       this.dataSource = new MatTableDataSource<any>(res.data);
     });
   }
@@ -95,6 +105,57 @@ export class SearchShowComponent implements OnInit {
     }).subscribe(res => {
       res.data[0].water_feature = res.data[0].water_feature ? "Yes" : "No";
       this.router.navigate(['exibit-detail'], {queryParams : res.data[0]});
+    })
+  }
+
+  sort(e) {
+    let sortField = e.target.innerText.toLowerCase();
+    if (sortField == "date") {
+      sortField = "date_time"
+    }
+    for (var i of Object.keys(this.sortCriteria.criteria)) {
+      if (i != sortField) {
+        this.sortCriteria.criteria[i] = false;
+        this.sortCriteria.ascending[i] = false;
+      }
+    }
+    let url = "";
+    this.sortCriteria.criteria[sortField] = true;
+    this.sortCriteria.ascending[sortField] = !this.sortCriteria.ascending[sortField];
+    this.search['sortCriteria'] = this.sortCriteria;
+    if (this.searchShowType == 'history') {
+      url = '/searchShowHistory';
+    } else if (this.searchShowType == 'search' || this.searchShowType == 'admin') {
+      url = '/searchShow';
+    }
+    this.httpClient.post(url, this.search).subscribe(res => {
+      for (var i = 0; i < res.data.length; i++) {
+        let current = new Date();
+        current.setTime(current.getTime() - current.getTimezoneOffset() * 60000);
+        res.data[i].validLogVisit = current <= new Date(res.data[i].date_time);
+        res.data[i].date = moment(res.data[i].date_time).format('MM/DD/YYYY [at] hh:mm A');
+        res.data[i].logged = false;
+      }
+      // console.log(res.data);
+      this.dataSource = new MatTableDataSource<any>(res.data);
+    });
+  }
+
+  remove(e) {
+    console.log(e);
+    this.httpClient.post('/removeShow', e).subscribe(res => {
+      console.log(res);
+      this.httpClient.post('/searchShow', this.search).subscribe(res => {
+        for (var i = 0; i < res.data.length; i++) {
+          let current = new Date();
+          current.setTime(current.getTime() - current.getTimezoneOffset() * 60000);
+          res.data[i].validLogVisit = current <= new Date(res.data[i].date_time);
+          res.data[i].date = moment(res.data[i].date_time).format('MM/DD/YYYY [at] hh:mm A');
+          res.data[i].logged = false;
+        }
+        // console.log(res.data);
+        this.dataSource = new MatTableDataSource<any>(res.data);
+      });
     })
   }
 }

@@ -57,3 +57,12 @@ td, th {
     cursor: pointer;
 }
 
+th:hover {
+  cursor: pointer;
+}
+
+th {
+  text-decoration: underline;
+  color: black;
+  font-weight: bold;
+}

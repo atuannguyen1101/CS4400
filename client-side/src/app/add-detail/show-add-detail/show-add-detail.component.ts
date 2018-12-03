@@ -4,6 +4,7 @@ import { Time } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 declare const moment: any;
+declare const $: any;
 
 @Component({
   selector: 'app-show-add-detail',
@@ -12,6 +13,7 @@ declare const moment: any;
 })
 export class ShowAddDetailComponent implements OnInit {
 
+  errorMessage = "";
   name: string;
   exhibit: any;
   time: string;
@@ -53,7 +55,18 @@ export class ShowAddDetailComponent implements OnInit {
     }
     this.httpClient.post('/addShow', data)
     .subscribe((res) => {
-      console.log(res);
+      $(".check_mark").addClass("hide");
+      this.errorMessage = "";
+      if (res['message'] == 'success') {
+        setTimeout(function() {
+          $(".check_mark").removeClass("hide");
+        }, 10);
+        setTimeout(() => {
+          $(".check_mark").addClass("hide");
+        }, 2500);
+      } else {
+        this.errorMessage = res['message'];
+      }
     })
   }
 }
