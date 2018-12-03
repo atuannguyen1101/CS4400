@@ -495,7 +495,19 @@ app.post('/searchExhibitHistory', (req, res) => {
 app.post('/animalByExhibit', (req, res) => {
 	let exhibit = req.body;
 	let response = res;
-	connection.query(`SELECT * FROM animal WHERE exhibit="${exhibit.name}"`,
+
+	let sort = req.body.sortCriteria;
+	let sortQuery = "";
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				sortQuery += ` ORDER BY ${i} `;
+				sortQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
+
+	connection.query(`SELECT * FROM animal WHERE exhibit="${exhibit.name}"` + sortQuery,
 	(err, res, fields) => {
 		response.send({
 			"messsage": "success",

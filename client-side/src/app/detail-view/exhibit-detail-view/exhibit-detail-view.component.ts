@@ -14,16 +14,25 @@ export class ExhibitDetailViewComponent implements OnInit {
   displayedColumns: string[] = ['name', 'species', 'detail'];
   dataSource: any = [];
   exhibit: any = {};
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+
+  search: any = {};
+
+  sortCriteria = {
+    criteria: {
+      name: false,
+      species: false
+    },
+    ascending: {
+      name: false,
+      species: false
+    }
+  }
 
   constructor(private route: ActivatedRoute,
     private httpClient: HttpClientService,
     private router: Router) { }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
     this.route.queryParams.subscribe(data => {
       // console.log(data);
       // console.log(data['name'])
@@ -31,7 +40,8 @@ export class ExhibitDetailViewComponent implements OnInit {
       this.exhibit.size = data['size'];
       this.exhibit.numOfAnimals = data['numOfAnimals']
       this.exhibit.water_feature = data['water_feature'];
-      this.httpClient.post('/animalByExhibit', this.exhibit).subscribe(res => {
+      this.search = this.exhibit
+      this.httpClient.post('/animalByExhibit', this.search).subscribe(res => {
         this.dataSource = new MatTableDataSource<any>(res.data);
       })
     })
@@ -51,6 +61,22 @@ export class ExhibitDetailViewComponent implements OnInit {
 
   animalDetail(data) { 
     this.router.navigate(['animal-detail'], {queryParams : data});
+  }
+
+  sort(e) {
+    let sortField = e.target.innerText.toLowerCase();
+    for (var i of Object.keys(this.sortCriteria.criteria)) {
+      if (i != sortField) {
+        this.sortCriteria.criteria[i] = false;
+        this.sortCriteria.ascending[i] = false;
+      }
+    }
+    this.sortCriteria.criteria[sortField] = true;
+    this.sortCriteria.ascending[sortField] = !this.sortCriteria.ascending[sortField];
+    this.search['sortCriteria'] = this.sortCriteria;
+    this.httpClient.post('/animalByExhibit', this.search).subscribe(res => {
+      this.dataSource = new MatTableDataSource<any>(res.data);
+    });
   }
 }
 
