@@ -131,7 +131,8 @@
             <ng-container matColumnDef="exhibit">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header
                 (click)="sort($event)"> Exhibit</th>
-                <td mat-cell *matCellDef="let element"> {{element.exhibit}} </td>
+                <td mat-cell *matCellDef="let element" class="detail"
+                (click)="exhibitDetail(element)"> {{element.exhibit}} </td>
             </ng-container>
 
             <!-- Age Column -->

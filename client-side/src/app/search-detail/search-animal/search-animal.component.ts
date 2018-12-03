@@ -102,5 +102,19 @@ export class SearchAnimalComponent implements OnInit {
     this.httpClient.post('/searchAnimal', this.search).subscribe(res => {
       this.dataSource = new MatTableDataSource<any>(res.data);
     });
+  };
+
+  exhibitDetail(data) {
+    this.httpClient.post('/searchExhibit', {
+      criteria: {
+        name: true,
+      },
+      data: {
+        name: data.exhibit
+      }
+    }).subscribe(res => {
+      res.data[0].water_feature = res.data[0].water_feature ? "Yes" : "No";
+      this.router.navigate(['exibit-detail'], {queryParams : res.data[0]});
+    })
   }
 }

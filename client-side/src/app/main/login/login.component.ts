@@ -7,13 +7,7 @@ import { HttpClientService } from '../../http-client.service';
 import { MatButtonModule } from '@angular/material/button';
 import { Observable } from 'rxjs';
 
-/** Error when invalid control is dirty, touched, or submitted. */
-// export class MyErrorStateMatcher implements ErrorStateMatcher {
-//   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-//     const isSubmitted = form && form.submitted;
-//     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-//   }
-// }
+declare const $: any;
 
 @Component({
   selector: 'app-login',
@@ -47,12 +41,14 @@ export class LoginComponent implements OnInit {
       if (res.message == "success") {
         // this.authService.login(user); // Save to authServer to keep token
         // this.router.navigate(['home-view'])
+        $("#headerBar").addClass("hide");
         this.errorMessage = '';
         this.httpClient.get('/api/data').subscribe((data) => {
           console.log(data)
         });
         localStorage.setItem("user_type", res.data.user_type);
         localStorage.setItem("username", res.data.username);
+
 
         this.router.navigate([`home-` + res.data.user_type.toLowerCase()]);
       } else {

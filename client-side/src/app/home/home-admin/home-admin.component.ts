@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+declare const $: any;
+
 @Component({
   selector: 'app-home-admin',
   templateUrl: './home-admin.component.html',
   styleUrls: ['./home-admin.component.css']
 })
+
 export class HomeAdminComponent implements OnInit {
 
   constructor(private router: Router) { }
@@ -45,6 +48,7 @@ export class HomeAdminComponent implements OnInit {
         this.router.navigate(['search-animal']);
         break;
       case 'Log out':
+        $("#headerBar").removeClass("hide");
         this.router.navigate(['login']);
         break;
       case 'Add Animals':

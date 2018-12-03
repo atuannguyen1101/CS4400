@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+declare const $: any;
+
 @Component({
   selector: 'app-home-visitor',
   templateUrl: './home-visitor.component.html',
@@ -44,6 +46,7 @@ export class HomeVisitorComponent implements OnInit {
         this.router.navigate(['search-show'], {queryParams: {type: "history"}});
         break;
       case 'Log out':
+        $("#headerBar").removeClass("hide");
         this.router.navigate(['login']);
         break;
       default:

@@ -5,6 +5,8 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { HttpClientService } from '../../http-client.service';
 import { Router } from '@angular/router';
 
+declare const $:any;
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -60,9 +62,11 @@ export class RegisterComponent implements OnInit {
     this.httpClient.post('/register', account).subscribe((data) => {
       if (data.message == "success") {
         // Save to authServer to keep token
+        $("#headerBar").addClass("hide");
         localStorage.setItem('userType', account.type);
         localStorage.setItem('username', account.username);
         this.router.navigate(['home-staff']);
+        this.router.navigate([`home-` + account.type.toLowerCase()]);
       } else {
         this.errorMessage = data.message;
       }

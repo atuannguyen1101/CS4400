@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+declare const $: any;
+
 @Component({
   selector: 'app-home-staff',
   templateUrl: './home-staff.component.html',
@@ -16,6 +18,7 @@ export class HomeStaffComponent implements OnInit {
   direct(event) {
     let command = event.target.innerText;
     if (command == "Log out") {
+      $("#headerBar").removeClass("hide");
       this.router.navigate(["login"]);
     } else if (command == "Search Animals") {
       this.router.navigate(['search-animal'])
