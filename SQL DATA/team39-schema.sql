@@ -17,8 +17,7 @@ drop table if exists user;
 
 create table user (
 	username varchar(24) NOT NULL,
-	password varchar(256) NOT NULL, 
-	-- we have to run this through hash function, not string type
+	password varchar(256) NOT NULL,
 	email varchar(50) NOT NULL,
 	user_type SET('Visitor', 'Staff', 'Admin') NOT NULL, 
 	PRIMARY KEY (username),
@@ -50,7 +49,6 @@ create table exhibit (
 	PRIMARY KEY (name)
 ) ENGINE=InnoDB;
 
--- Lan: Cannot create table "show" because it is a reserved word, changed to "shows"
 create table shows (
 	name varchar(40) NOT NULL,
 	date_time datetime NOT NULL,
@@ -58,7 +56,6 @@ create table shows (
 	exhibit varchar(40) NOT NULL,
 	PRIMARY KEY (name, date_time),
 	CONSTRAINT FOREIGN KEY (exhibit) REFERENCES exhibit(name) ON DELETE CASCADE ON UPDATE CASCADE,
-	-- Lan fix
 	CONSTRAINT FOREIGN KEY (host) REFERENCES user(username) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
@@ -67,11 +64,9 @@ create table animal (
 	species varchar(40) NOT NULL,
 	type SET('Mammal', 'Bird', 'Amphibian', 'Reptile', 'Fish', 'Invertebrate') NOT NULL,
 	age smallint NOT NULL,
-	-- number of months
 	exhibit varchar(40) NOT NULL,
 	PRIMARY KEY (name, species),
 	CONSTRAINT FOREIGN KEY (exhibit) REFERENCES exhibit(name) ON DELETE CASCADE ON UPDATE CASCADE
-	-- Lan fix
 ) ENGINE=InnoDB;
 
 create table animal_care (
@@ -100,7 +95,6 @@ create table visit_exhibit (
 	date_time datetime NOT NULL,
 	visitor varchar(24) NOT NULL,
 	PRIMARY KEY (exhibit, date_time, visitor),
-	-- Lan fix
 	CONSTRAINT FOREIGN KEY (exhibit) REFERENCES exhibit(name) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT FOREIGN KEY (visitor) REFERENCES user(username) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;

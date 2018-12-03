@@ -118,19 +118,29 @@ app.post('/addAnimal', (req, res) => {
 app.post('/addShow', (req, res) => {
 	let show = req.body;
 	let response = res;
-	connection.query(`INSERT INTO shows VALUES` +
-		`("${show.name}", "${show.date}", "${show.staff}", "${show.exhibit}")`,
-		(err, res, fields) => {
-			if (err) {
-				response.send({
-					"message": "Constraint, look in documentation"
-				});
-			} else {
-				response.send({
-					"message": "success"
-				})
-			}
-		});
+	connection.query(`SELECT * FROM shows 
+	WHERE host="${show.staff}" AND date_time="${show.date}"`, (err, res, fields) => {
+		console.log(err, res);
+		if (err || res.length != 0) {
+			response.send({
+				message: "This staff is already on the other show at this time"
+			})
+		} else {
+			connection.query(`INSERT INTO shows VALUES` +
+			`("${show.name}", "${show.date}", "${show.staff}", "${show.exhibit}")`,
+			(err, res, fields) => {
+				if (err) {
+					response.send({
+						"message": "Constraint, look in documentation"
+					});
+				} else {
+					response.send({
+						"message": "success"
+					})
+				}
+			});
+		}
+	})
 });
 
 app.post('/addNote', (req, res) => {
@@ -154,8 +164,21 @@ app.post('/addNote', (req, res) => {
 app.post('/animalNote', (req, res) => {
 	let response = res;
 	let a = req.body;
+	
+	let sort = req.body.sortCriteria;
+	let sortQuery = "";
+	if (sort) {
+		for (var i of Object.keys(sort.criteria)) {
+			if (sort.criteria[i]) {
+				sortQuery += ` ORDER BY ${i} `;
+				sortQuery += sort.ascending[i] ? ` ASC` : ` DESC`;
+			}
+		}
+	}
+
 	connection.query(`SELECT staff_member, text_care, date_time FROM animal_care ` 
-	+ `WHERE animal = "${a.name}" AND species = "${a.species}"`, (err, res, fields) => {
+	+ `WHERE animal = "${a.name}" AND species = "${a.species}"` + sortQuery, (err, res, fields) => {
+		console.log(err, res)
 		if (err) {
 			response.send({
 				message: "fail"

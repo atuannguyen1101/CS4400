@@ -36,19 +36,22 @@
     
                 <!-- Name Column -->
                 <ng-container matColumnDef="staff">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Staff member </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                (click)="sort($event)"> Staff member </th>
                 <td mat-cell *matCellDef="let element"> {{element.staff_member}} </td>
                 </ng-container>
     
                 <!-- Species Column -->
                 <ng-container matColumnDef="note">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Note </th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                    (click)="sort($event)"> Note </th>
                     <td mat-cell *matCellDef="let element"> {{element.text_care}} </td>
                 </ng-container>
     
                 <!-- Species Column -->
                 <ng-container matColumnDef="time">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Time</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                    (click)="sort($event)"> Time</th>
                     <td mat-cell *matCellDef="let element"> {{element.date}} </td>
                 </ng-container>
     
